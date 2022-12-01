@@ -45,52 +45,7 @@ Survive long enough and you win!
 * Give the X-Wing the ability to shoot and destroy Tie Fighters and asteroids in its path
 * Make the X-wing bullets chicken nuggets 
 
-
-<!-- Pseudo Code  -->
-
-Game Steps ===>
-player starts the game
-start moving player forward
-objects begin moving across screen 
-player can move around the screen to avoid obstacles
-timer to track how long player has survived, when certain time has been reached the player wins 
-after win, player gets option to continue, or restart
-
-Functions ===>
-start game 
-check for collisions
-    -> collision logic
-    -> display game over if collision detected
-check for winning time limit 
-    -> display game won message if time limit reached 
-    -> display continue game button 
-
-Forms ===>
-game title 
-game instructions
-game over message 
-game won message
-start button 
-restart button 
-
-Planning ===>
-
-Xwing Class
-    -> controls player movement 
-
-Tie Class 
-    -> controls AI movement 
-
-Run Game Class
-    -> time set to null
-    -> method to increment time
-    -> collision detection
-
-
-
-HTML ===>
-get canvas set up 
-start game button
-restart game button
-
-
+# Roadblocks
+* Having the Tie fighters move across the screen
+* Tracking the time played 
+* Allowing the player to continue from current position once the winning time limit has been reached 
