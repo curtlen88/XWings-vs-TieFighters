@@ -2,7 +2,7 @@
 
 A long time ago in a galaxy inside your browser....
 
-With the Galxay in a state of chaos you must race past the Empires fleet of tie fighter to aid the rebellion in there next attemt to thwart the Emporers evil plans. 
+With the Galxay in a state of chaos you must race past the Empires fleet of tie fighter to aid the rebellion in there next attemt to thwart the Emperors evil plans. 
 
 Use the force... of your fingers and your best pilot skills to navigate throught the dreaded Tie Fighter Army!
 
