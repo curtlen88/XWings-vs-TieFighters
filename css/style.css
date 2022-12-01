@@ -1,0 +1,29 @@
+/* sets the grids */
+.container {
+    display: grid;
+    grid-template-columns: 1fr 10fr 1fr;
+    grid-template-rows: 1fr 5fr ;
+    }
+    
+    .gameTitle { 
+        grid-area: 1 / 2 / 2 / 3; 
+        background-color: black;
+        color: gold;
+    }
+    
+    .gameboard { 
+        grid-area: 2 / 2 / 3 / 3; 
+        background-color: lightgray;
+    }
+    
+    .instructions { 
+        grid-area: 1 / 1 / 3 / 2; 
+        background-color: black;
+        color: gold;
+    }
+    .buttons{ 
+    grid-area: 1 / 3 / 3 / 4; 
+    background-color: black;
+    color: gold;
+}
+
