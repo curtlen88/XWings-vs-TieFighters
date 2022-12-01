@@ -44,3 +44,8 @@ Survive long enough and you win!
 # Super-Strech Goals
 * Give the X-Wing the ability to shoot and destroy Tie Fighters and asteroids in its path
 * Make the X-wing bullets chicken nuggets 
+
+# Roadblocks
+* Having the Tie fighters move across the screen
+* Tracking the time played 
+* Allowing the player to continue from current position once the winning time limit has been reached 
