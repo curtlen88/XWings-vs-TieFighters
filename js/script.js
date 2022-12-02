@@ -4,7 +4,7 @@ const restartButton = document.querySelector('#restartButton')
 console.log(startButton, restartButton)
 
 
-//reset canvas resolution to window size
+//reset canvas pixels window size
 canvas.setAttribute('height', getComputedStyle(canvas)['height'])
 canvas.setAttribute('width', getComputedStyle(canvas)['width'])
 
@@ -18,16 +18,18 @@ console.log(ctx)
 // ctx.fillRect(0,0,150,300)
 
 
-// Event Liserners
+// Event Listeners
 startButton.addEventListener('click', startGame)
 restartButton.addEventListener('click', restartGame)
 
 // Functions
 function startGame (){
     console.log(`start clicked`)
+    gameLoopInterval = setInterval(gameLoop, 60)
 }
 function restartGame (){
     console.log(`restart clicked`)
+    clearInterval(gameLoopInterval)
 }
 
 // Classes for on screen objects
@@ -48,24 +50,49 @@ class gameObject {
     }
 }
 // game variables 
-// const gameLoopInterval = setInterval(gameLoop, 60)
+let gameLoopInterval = {}
 const xWing = new gameObject(361, 775, 100, 100, 'blue')
 const tieFighter = new gameObject(700, 450, 75, 75, 'red')
 const pressedKeys = {}
 
 // Render gameObjects
-xWing.render()
 tieFighter.render()
 
 //  Handling Movement
-function createMovement(event) {
-    console.log(event.key)
-
-
-
+function createMovement(speed) {
+    // console.log(event.key)
+    // variable for how many pixels to move when key pressed
+    // const speed = 5 
+    console.log(pressedKeys)
+    if (pressedKeys.ArrowUp) {
+        console.log(pressedKeys)
+        xWing.y -= speed
+    }
+    
+    
+    
+    
 }
 
-//Event Listeners for arrow keys
-document.addEventListener('keydown', createMovement)
-// document.addEventListener('keydown', e => pressedKeys[e.target] = true)
-// document.addEventListener('keyup', e => pressedKeys[e.target] = false)
+//Event Listeners for keydown event
+// document.addEventListener('keydown', createMovement)
+document.addEventListener('keydown', e => pressedKeys[e.key] = true)
+document.addEventListener('keyup', e => pressedKeys[e.key] = false)
+
+
+// Define the game loop -> what happens when the game is running
+function gameLoop(){
+    // console.log(`gameLoop started`)
+    // clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    // pass the handle movement function
+    createMovement(5)
+    
+    // render X-wing
+    xWing.render()
+    // check if game has been started (clicked start game)
+    // render the game objects
+    // check if any objects have been hit and end game
+
+}
