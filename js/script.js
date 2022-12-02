@@ -3,7 +3,7 @@ const startButton = document.querySelector('#startButton')
 const restartButton = document.querySelector('#restartButton')
 const pauseButton = document.querySelector('#pauseButton')
 
-console.log(startButton, restartButton)
+// console.log(startButton, restartButton)
 
 
 //reset canvas pixels window size
@@ -67,7 +67,7 @@ xWing.render()
 
 
 //  Handling Movement
-function createMovement(speed) {
+function xWingMovement(speed) {
     // logic for moving the player around
     if (pressedKeys.ArrowUp) {
         // console.log(pressedKeys)
@@ -85,42 +85,39 @@ function createMovement(speed) {
         // console.log(pressedKeys)
         xWing.x -= speed
     }
-    
-    
-    
-    
 }
 
 //Event Listeners for keydown event
-// document.addEventListener('keydown', createMovement)
+// document.addEventListener('keydown', xWingMovement)
 document.addEventListener('keydown', e => pressedKeys[e.key] = true)
 document.addEventListener('keyup', e => pressedKeys[e.key] = false)
+
+// handling AI movement
+function enemyMovement(speed) {
+    // logic for moving the AI accross the screen
+    if (tieFighter.y <= canvas.width) {
+        // console.log(pressedKeys)
+        tieFighter.x -= speed
+    }
+}
 
 
 // Define the game loop -> what happens when the game is running
 function gameLoop(){
-    // console.log(`gameLoop started`)
+    console.log(tieFighter)
     // clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-
     //if the xwing hits an object end the game 
     if(detectCollision(xWing, tieFighter)) {
         console.log('object hit')
         xWing.alive = false
-
     }
-
-    // pass the handle movement function
-    createMovement(5)
-    
+    // pass the handle movement function and give speed setting
+    xWingMovement(5)
+    enemyMovement(10)
     // render X-wing and game objects
     xWing.render()
-    // make tie fighters move
     tieFighter.render()
-    // check if game has been started (clicked start game)
-    // render the game objects
-    // check if any objects have been hit and end game
-
 }
 
 //from canvas crawler (link)
