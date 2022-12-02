@@ -30,6 +30,7 @@ pauseButton.addEventListener('click', pauseGame)
 function startGame (){
     // console.log(`start clicked`)
     gameLoopInterval = setInterval(gameLoop, 60)
+    setInterval(runSecondsPassed,1000)
 }
 function restartGame (){
     // console.log(`restart clicked`)
@@ -38,6 +39,7 @@ function restartGame (){
 function pauseGame (){
     // console.log(`pause clicked`)
     clearInterval(gameLoopInterval)
+    startButton.innerText = 'Resume'
 }
 
 // Classes for on screen objects
@@ -58,8 +60,8 @@ class gameObject {
     }
 }
 // game variables 
-const screenRight = parseFloat(getComputedStyle(canvas).height,10)
-const screenBottom = parseFloat(getComputedStyle(canvas).width,10)
+// const screenRight = parseFloat(getComputedStyle(canvas).height,10)
+// const screenBottom = parseFloat(getComputedStyle(canvas).width,10)
 let gameLoopInterval = {}
 const xWing = new gameObject(450, 785, 100, 100, 'blue')
 const tieFighter = new gameObject(1000, 450, 75, 75, 'red')
@@ -108,15 +110,24 @@ function enemyMovement(speed) {
     }
 }
 
+// set variable to count seconds 
+let secondsPassed = 0
+// adds to the seconds
+function runSecondsPassed() {
+    secondsPassed++
+    console.log(secondsPassed)
+}
+// interval for the runSeconds Function
+// const secondsInterval = setInterval(runSecondsPassed,1000)
 
 // Define the game loop -> what happens when the game is running
 function gameLoop(){
-    console.log(xWing)
+    // console.log(gameLoopInterval)
     // clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     //if the xwing hits an object end the game 
     if(detectCollision(xWing, tieFighter)) {
-        console.log('object hit')
+        // console.log('object hit')
         xWing.alive = false
         // display you died message 
         statusMessage.innerText = ('You Died')
@@ -125,7 +136,8 @@ function gameLoop(){
         restartButton.append(makeRestartButton)
         restartButton.addEventListener('click', restartGame)
         clearInterval(gameLoopInterval)
-        
+    } else if(gameLoopInterval > 6000) {
+        statusMessage.innerText = 'You Won'
     }
     // pass the handle movement function and give speed setting
     xWingMovement(15)
@@ -142,6 +154,6 @@ function detectCollision (objectOne, objectTwo) {
         const right = objectOne.x <= objectTwo.x + objectTwo.width
         const top = objectOne.y + objectOne.height >= objectTwo.y
         const bottom = objectOne.y <= objectTwo.y + objectTwo.height
-        console.log(left, right, top, bottom)
+        // console.log(left, right, top, bottom)
         return left && right && top && bottom
 }
