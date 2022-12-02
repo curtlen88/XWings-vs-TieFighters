@@ -10,30 +10,35 @@ canvas {
 /* sets the grids */
 .container {
     display: grid;
-    grid-template-columns: 1fr 10fr 1fr;
-    grid-template-rows: 1fr 4.5fr ;
+    grid-template-columns: 1fr 1000px 1fr;
+    grid-template-rows: 300px 900px ;
     }
     
-    .gameTitle { 
+.gameTitle { 
         grid-area: 1 / 2 / 2 / 3; 
         background-color: black;
         color: gold;
         text-align: center;
     }
     
-    .gameboard { 
+.gameboard { 
         grid-area: 2 / 2 / 3 / 3; 
         background-color: lightgray;
     }
     
-    .instructions { 
+.instructions { 
         grid-area: 1 / 1 / 3 / 2; 
         background-color: black;
         color: gold;
     }
-    .buttons{ 
+
+.buttons{ 
     grid-area: 1 / 3 / 3 / 4; 
     background-color: black;
     color: gold;
+}
+
+.titleMessage {
+    font-size: 25px;
 }
 

@@ -49,10 +49,23 @@ class gameObject {
 }
 // game variables 
 // const gameLoopInterval = setInterval(gameLoop, 60)
-const xWing = new gameObject(5, 145, 25, 25, 'hotpink')
-const tieFighter = new gameObject(50, 50, 50, 75, 'green')
-// const pressedKeys = {}
+const xWing = new gameObject(361, 775, 100, 100, 'blue')
+const tieFighter = new gameObject(700, 450, 75, 75, 'red')
+const pressedKeys = {}
 
 // Render gameObjects
 xWing.render()
 tieFighter.render()
+
+//  Handling Movement
+function createMovement(event) {
+    console.log(event.key)
+
+
+
+}
+
+//Event Listeners for arrow keys
+document.addEventListener('keydown', createMovement)
+// document.addEventListener('keydown', e => pressedKeys[e.target] = true)
+// document.addEventListener('keyup', e => pressedKeys[e.target] = false)
