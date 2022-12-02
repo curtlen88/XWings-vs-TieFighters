@@ -26,7 +26,7 @@ X-Wing vs Tie Fighters will be a 2D collision avoidance game. The game will star
 Move your Tie Fighter using the arrow keys to avoid the incoming Tie Fighters 
 Survive long enough and you win!
 
-#MVP 
+# MVP 
 * render and X-Wing and Tie Fighter shape to game screen.
 * Start button to begin the game
 * Ability to move the X-Wing
