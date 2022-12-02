@@ -59,7 +59,7 @@ class gameObject {
 // game variables 
 let gameLoopInterval = {}
 const xWing = new gameObject(361, 775, 100, 100, 'blue')
-const tieFighter = new gameObject(700, 450, 75, 75, 'red')
+const tieFighter = new gameObject(1000, 450, 75, 75, 'red')
 const pressedKeys = {}
 
 // Render gameObjects
@@ -95,9 +95,11 @@ document.addEventListener('keyup', e => pressedKeys[e.key] = false)
 // handling AI movement
 function enemyMovement(speed) {
     // logic for moving the AI accross the screen
-    if (tieFighter.y <= canvas.width) {
+    if (tieFighter.x >= 0 - tieFighter.width) {
         // console.log(pressedKeys)
         tieFighter.x -= speed
+    } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
     }
 }
 
