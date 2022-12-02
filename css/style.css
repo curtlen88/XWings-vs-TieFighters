@@ -1,14 +1,24 @@
+body {
+    background-color: black;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
 /* sets the grids */
 .container {
     display: grid;
     grid-template-columns: 1fr 10fr 1fr;
-    grid-template-rows: 1fr 5fr ;
+    grid-template-rows: 1fr 4.5fr ;
     }
     
     .gameTitle { 
         grid-area: 1 / 2 / 2 / 3; 
         background-color: black;
         color: gold;
+        text-align: center;
     }
     
     .gameboard { 
