@@ -1,6 +1,8 @@
 // DOM Selectors 
 const startButton = document.querySelector('#startButton')
 const restartButton = document.querySelector('#restartButton')
+const pauseButton = document.querySelector('#pauseButton')
+
 console.log(startButton, restartButton)
 
 
@@ -28,6 +30,10 @@ function startGame (){
     gameLoopInterval = setInterval(gameLoop, 60)
 }
 function restartGame (){
+    console.log(`restart clicked`)
+    clearInterval(gameLoopInterval)
+}
+function pauseGame (){
     console.log(`restart clicked`)
     clearInterval(gameLoopInterval)
 }
@@ -61,12 +67,23 @@ tieFighter.render()
 //  Handling Movement
 function createMovement(speed) {
     // console.log(event.key)
-    // variable for how many pixels to move when key pressed
-    // const speed = 5 
+    // logic for moving the player around
     console.log(pressedKeys)
     if (pressedKeys.ArrowUp) {
         console.log(pressedKeys)
         xWing.y -= speed
+    }
+    if (pressedKeys.ArrowDown) {
+        console.log(pressedKeys)
+        xWing.y += speed
+    }
+    if (pressedKeys.ArrowRight) {
+        console.log(pressedKeys)
+        xWing.x += speed
+    }
+    if (pressedKeys.ArrowLeft) {
+        console.log(pressedKeys)
+        xWing.x -= speed
     }
     
     
