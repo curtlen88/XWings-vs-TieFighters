@@ -2,8 +2,10 @@
 const startButton = document.querySelector('#startButton')
 const restartButton = document.querySelector('#restartButton')
 const pauseButton = document.querySelector('#pauseButton')
+const statusMessage = document.querySelector('#statusMessage')
 
-// console.log(startButton, restartButton)
+
+// console.log(startButton, pauseButton)
 
 
 //reset canvas pixels window size
@@ -22,7 +24,6 @@ const ctx = canvas.getContext('2d')
 
 // Event Listeners
 startButton.addEventListener('click', startGame)
-restartButton.addEventListener('click', restartGame)
 pauseButton.addEventListener('click', pauseGame)
 
 // Functions
@@ -94,7 +95,7 @@ document.addEventListener('keyup', e => pressedKeys[e.key] = false)
 
 // handling AI movement
 function enemyMovement(speed) {
-    // logic for moving the AI accross the screen
+    // logic for moving the AI across the screen
     if (tieFighter.x >= 0 - tieFighter.width) {
         // console.log(pressedKeys)
         tieFighter.x -= speed
@@ -113,10 +114,18 @@ function gameLoop(){
     if(detectCollision(xWing, tieFighter)) {
         console.log('object hit')
         xWing.alive = false
+        // display you died message 
+        statusMessage.innerText = ('You Died')
+        const makeRestartButton = document.createElement('button')
+        makeRestartButton.innerText = "Restart Game"
+        restartButton.append(makeRestartButton)
+        restartButton.addEventListener('click', restartGame)
+        clearInterval(gameLoopInterval)
+        
     }
     // pass the handle movement function and give speed setting
     xWingMovement(5)
-    enemyMovement(10)
+    enemyMovement(5)
     // render X-wing and game objects
     xWing.render()
     tieFighter.render()
