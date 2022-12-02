@@ -33,7 +33,7 @@ function startGame (){
 }
 function restartGame (){
     // console.log(`restart clicked`)
-    clearInterval(gameLoopInterval)
+    xWing.alive === true
 }
 function pauseGame (){
     // console.log(`pause clicked`)
@@ -58,10 +58,13 @@ class gameObject {
     }
 }
 // game variables 
+const screenRight = parseFloat(getComputedStyle(canvas).height,10)
+const screenBottom = parseFloat(getComputedStyle(canvas).width,10)
 let gameLoopInterval = {}
-const xWing = new gameObject(361, 775, 100, 100, 'blue')
+const xWing = new gameObject(450, 785, 100, 100, 'blue')
 const tieFighter = new gameObject(1000, 450, 75, 75, 'red')
 const pressedKeys = {}
+// const randomHeight = 100 + Math.floor(math.random() * 200)
 
 // Render gameObjects
 xWing.render()
@@ -70,19 +73,19 @@ xWing.render()
 //  Handling Movement
 function xWingMovement(speed) {
     // logic for moving the player around
-    if (pressedKeys.ArrowUp) {
+    if (pressedKeys.ArrowUp && xWing.y > 0) {
         // console.log(pressedKeys)
         xWing.y -= speed
     }
-    if (pressedKeys.ArrowDown) {
+    if (pressedKeys.ArrowDown && xWing.y < 900 - xWing.height) {
         // console.log(pressedKeys)
         xWing.y += speed
     }
-    if (pressedKeys.ArrowRight) {
+    if (pressedKeys.ArrowRight && xWing.x < 1000 - xWing.width) {
         // console.log(pressedKeys)
         xWing.x += speed
     }
-    if (pressedKeys.ArrowLeft) {
+    if (pressedKeys.ArrowLeft && xWing.x > 0) {
         // console.log(pressedKeys)
         xWing.x -= speed
     }
@@ -99,6 +102,7 @@ function enemyMovement(speed) {
     if (tieFighter.x >= 0 - tieFighter.width) {
         // console.log(pressedKeys)
         tieFighter.x -= speed
+        tieFighter.y += speed
     } else {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
     }
@@ -107,7 +111,7 @@ function enemyMovement(speed) {
 
 // Define the game loop -> what happens when the game is running
 function gameLoop(){
-    console.log(tieFighter)
+    console.log(xWing)
     // clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     //if the xwing hits an object end the game 
@@ -124,8 +128,8 @@ function gameLoop(){
         
     }
     // pass the handle movement function and give speed setting
-    xWingMovement(5)
-    enemyMovement(5)
+    xWingMovement(15)
+    enemyMovement(.1)
     // render X-wing and game objects
     xWing.render()
     tieFighter.render()
