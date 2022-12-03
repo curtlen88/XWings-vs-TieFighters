@@ -102,7 +102,7 @@ function enemyMovement(speed) {
     if (tieFighter.x >= 0 - tieFighter.width) {
         // console.log(pressedKeys)
         tieFighter.x -= speed
-        tieFighter.y += speed
+        // tieFighter.y += speed
     } else {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
     }
@@ -121,7 +121,7 @@ function gameLoop(){
     // console.log(gameLoopInterval)
     // clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    timer.innerText = `Timer: ${secondsPassed}`
+    timer.innerText = `Timer: ${secondsPassed} Seconds`
     //if the xwing hits an object end the game 
     if(detectCollision(xWing, tieFighter)) {
         // console.log('object hit')
@@ -134,12 +134,12 @@ function gameLoop(){
         restartButton.addEventListener('click', restartGame)
         clearInterval(gameLoopInterval)
         clearInterval(secondsInterval)
-    } else if(gameLoopInterval > 6000) {
+    } else if(secondsPassed > 12) {
         statusMessage.innerText = 'You Won'
     }
     // pass the handle movement function and give speed setting
     xWingMovement(15)
-    enemyMovement(1)
+    enemyMovement(10)
     // render X-wing and game objects
     xWing.render()
     tieFighter.render()
