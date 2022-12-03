@@ -3,39 +3,35 @@ const startButton = document.querySelector('#startButton')
 const restartButton = document.querySelector('#restartButton')
 const pauseButton = document.querySelector('#pauseButton')
 const statusMessage = document.querySelector('#statusMessage')
-
-
 // console.log(startButton, pauseButton)
-
 
 //reset canvas pixels window size
 canvas.setAttribute('height', getComputedStyle(canvas)['height'])
 canvas.setAttribute('width', getComputedStyle(canvas)['width'])
 
-
 // get rendering context from the canvas
 const ctx = canvas.getContext('2d')
 // console.log(ctx)
-
-// testing canvas rendering 
-// ctx.fillStyle ='red'
-// ctx.fillRect(0,0,150,300)
-
 
 // Event Listeners
 startButton.addEventListener('click', startGame)
 pauseButton.addEventListener('click', pauseGame)
 
+// sets an open variable in the global scope
+let secondsInterval
+
 // Functions
 function startGame (){
     // console.log(`start clicked`)
     gameLoopInterval = setInterval(gameLoop, 60)
-    setInterval(runSecondsPassed,1000)
+    secondsInterval = setInterval(runSecondsPassed,1000)
 }
+
 function restartGame (){
     // console.log(`restart clicked`)
     xWing.alive === true
 }
+
 function pauseGame (){
     // console.log(`pause clicked`)
     clearInterval(gameLoopInterval)
@@ -70,7 +66,6 @@ const pressedKeys = {}
 
 // Render gameObjects
 xWing.render()
-
 
 //  Handling Movement
 function xWingMovement(speed) {
@@ -110,15 +105,17 @@ function enemyMovement(speed) {
     }
 }
 
-// set variable to count seconds 
-let secondsPassed = 0
-// adds to the seconds
-function runSecondsPassed() {
-    secondsPassed++
-    console.log(secondsPassed)
-}
-// interval for the runSeconds Function
-// const secondsInterval = setInterval(runSecondsPassed,1000)
+    // set variable to count seconds 
+    let secondsPassed = 0
+    // adds to the seconds
+    function runSecondsPassed() {
+        secondsPassed++
+        console.log(secondsPassed)
+    }
+    // interval for the runSeconds Function
+    
+
+
 
 // Define the game loop -> what happens when the game is running
 function gameLoop(){
@@ -136,6 +133,8 @@ function gameLoop(){
         restartButton.append(makeRestartButton)
         restartButton.addEventListener('click', restartGame)
         clearInterval(gameLoopInterval)
+        clearInterval(secondsInterval)
+        secondsPassed = 0
     } else if(gameLoopInterval > 6000) {
         statusMessage.innerText = 'You Won'
     }
