@@ -4,6 +4,13 @@ const restartButton = document.querySelector('#restartButton')
 const pauseButton = document.querySelector('#pauseButton')
 const statusMessage = document.querySelector('#statusMessage')
 const timer = document.querySelector('#timer')
+const WIN_TIME = 12
+const XWING_SPEED = 15
+const ENEMY_SPEED = 10
+const xWingImage = new Image()
+    xWingImage.src = "../img/xwing.png"
+    xWingImage.width = 150
+    xWing
 // console.log(startButton, pauseButton)
 
 //reset canvas pixels window size
@@ -17,6 +24,7 @@ const ctx = canvas.getContext('2d')
 // Event Listeners
 startButton.addEventListener('click', startGame)
 pauseButton.addEventListener('click', pauseGame)
+restartButton.addEventListener('click', restartGame)
 
 // sets an open variable in the global scope
 let secondsInterval
@@ -28,42 +36,73 @@ function startGame (){
     secondsPassed = 0
     // interval for the runSeconds Function
     secondsInterval = setInterval(runSecondsPassed,1000)
+    restartButton.style.display = 'none'
 }
 
 function restartGame (){
+    clearInterval(gameLoopInterval)
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     // console.log(`restart clicked`)
     xWing.alive === true
+    xWing.x = 450
+    xWing.y = 785
+    tieFighter.x = 1000
+    tieFighter.y = 450
+    restartButton.style.display = 'none'
+    secondsPassed = 0
+    clearInterval(secondsInterval)
+    statusMessage.innerText = 'How long can you survive'
+    gameLoopInterval = setInterval(gameLoop, 60)
+    // // interval for the runSeconds Function
+    secondsInterval = setInterval(runSecondsPassed,1000)
+    
 }
 
 function pauseGame (){
     // console.log(`pause clicked`)
     clearInterval(gameLoopInterval)
-    startButton.innerText = 'Resume'
+    // startButton.innerText = 'Resume'
 }
+// // image object class
+// class imageObject {
+//     constructor(image,x,y,width,height) {
+//         this.image = image
+//         this.x = x
+//         this.y = y
+//         this.width = width
+//         this.height = height
 
+//         this.alive = true
+//     }
+
+//     render () {
+//         ctx.fillImg(this.image, this.x, this.y, this.width, this.height)
+//     }
+// }
 // Classes for on screen objects
 class gameObject {
-    constructor(x, y, width, height, color) {
+    constructor(image, x, y, width, height) {
+        this.image = image
         this.x = x
         this.y = y
         this.width = width
         this.height = height
-        this.color = color
 
         this.alive = true
     }
 
     render () {
-        ctx.fillStyle = this.color
-        ctx.fillRect(this.x ,this.y, this.width, this.height)
+        // ctx.fillStyle = this.color
+        // ctx.fillRect(this.x ,this.y, this.width, this.height)
+        ctx.drawImage(this.image, this.x, this.y)
     }
 }
 // game variables 
 // const screenRight = parseFloat(getComputedStyle(canvas).height,10)
 // const screenBottom = parseFloat(getComputedStyle(canvas).width,10)
 let gameLoopInterval = {}
-const xWing = new gameObject(450, 785, 100, 100, 'blue')
-const tieFighter = new gameObject(1000, 450, 75, 75, 'red')
+const xWing = new gameObject(xWingImage, 450, 785, 100, 100)
+const tieFighter = new gameObject(xWingImage, 1000, 450, 75, 75)
 const pressedKeys = {}
 // const randomHeight = 100 + Math.floor(math.random() * 200)
 
@@ -128,18 +167,15 @@ function gameLoop(){
         xWing.alive = false
         // display you died message 
         statusMessage.innerText = ('You Died')
-        const makeRestartButton = document.createElement('button')
-        makeRestartButton.innerText = "Restart Game"
-        restartButton.append(makeRestartButton)
-        restartButton.addEventListener('click', restartGame)
+        restartButton.style.display = 'flex'
         clearInterval(gameLoopInterval)
         clearInterval(secondsInterval)
-    } else if(secondsPassed > 12) {
+    } else if(secondsPassed > WIN_TIME) {
         statusMessage.innerText = 'You Won'
     }
     // pass the handle movement function and give speed setting
-    xWingMovement(15)
-    enemyMovement(10)
+    xWingMovement(XWING_SPEED)
+    enemyMovement(ENEMY_SPEED)
     // render X-wing and game objects
     xWing.render()
     tieFighter.render()
