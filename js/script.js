@@ -3,6 +3,7 @@ const startButton = document.querySelector('#startButton')
 const restartButton = document.querySelector('#restartButton')
 const pauseButton = document.querySelector('#pauseButton')
 const statusMessage = document.querySelector('#statusMessage')
+const timer = document.querySelector('#timer')
 // console.log(startButton, pauseButton)
 
 //reset canvas pixels window size
@@ -24,6 +25,8 @@ let secondsInterval
 function startGame (){
     // console.log(`start clicked`)
     gameLoopInterval = setInterval(gameLoop, 60)
+    secondsPassed = 0
+    // interval for the runSeconds Function
     secondsInterval = setInterval(runSecondsPassed,1000)
 }
 
@@ -105,23 +108,20 @@ function enemyMovement(speed) {
     }
 }
 
-    // set variable to count seconds 
-    let secondsPassed = 0
-    // adds to the seconds
-    function runSecondsPassed() {
-        secondsPassed++
-        console.log(secondsPassed)
-    }
-    // interval for the runSeconds Function
-    
-
-
+// set variable to count seconds 
+let secondsPassed = 0
+// adds to the seconds
+function runSecondsPassed() {
+    secondsPassed++
+    console.log(secondsPassed)
+}
 
 // Define the game loop -> what happens when the game is running
 function gameLoop(){
     // console.log(gameLoopInterval)
     // clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    timer.innerText = `Timer: ${secondsPassed}`
     //if the xwing hits an object end the game 
     if(detectCollision(xWing, tieFighter)) {
         // console.log('object hit')
@@ -134,13 +134,12 @@ function gameLoop(){
         restartButton.addEventListener('click', restartGame)
         clearInterval(gameLoopInterval)
         clearInterval(secondsInterval)
-        secondsPassed = 0
     } else if(gameLoopInterval > 6000) {
         statusMessage.innerText = 'You Won'
     }
     // pass the handle movement function and give speed setting
     xWingMovement(15)
-    enemyMovement(.1)
+    enemyMovement(1)
     // render X-wing and game objects
     xWing.render()
     tieFighter.render()
