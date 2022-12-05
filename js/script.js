@@ -4,10 +4,16 @@ const restartButton = document.querySelector('#restartButton')
 const pauseButton = document.querySelector('#pauseButton')
 const statusMessage = document.querySelector('#statusMessage')
 const timer = document.querySelector('#timer')
+
+// Global variables for speed 
 const WIN_TIME = 12
 const XWING_SPEED = 15
-// const randomSpeed = enemyArray.forEach(enemy => {(Math.floor(Math.random() * 20)+1)}
-const ENEMY_SPEED = 5
+const randomSpeed = Math.floor(Math.random() * 4)+1
+const tieFighterSpeed = 2
+const ASTEROID_SPEED = 10
+const COMET_METEOR_SPEED = 20
+
+// variables to select images
 const xWingImage = new Image()
     xWingImage.src = "../img/chickenXwing.png"
 const tieFighterImage = new Image()
@@ -37,7 +43,7 @@ restartButton.addEventListener('click', restartGame)
 let secondsInterval
 
 // Functions for buttons
-function startGame (){
+function startGame(){
     gameLoopInterval = setInterval(gameLoop, 60)
     secondsPassed = 0
     // interval for the runSeconds Function
@@ -52,11 +58,15 @@ function restartGame (){
     xWing.x = 425
     xWing.y = 750
     tieFighter1.x = 1000
-    tieFighter1.y = 450
-    tieFighter2.x = 1000
-    tieFighter3.y = 350
+    tieFighter1.y = 650
+    tieFighter2.x = 0
+    tieFighter2.y = 490
     tieFighter3.x = 1000
-    tieFighter3.y = 250
+    tieFighter3.y = 330
+    tieFighter4.x = 0
+    tieFighter4.y = 170
+    tieFighter5.x = 1000
+    tieFighter5.y = 10
     restartButton.style.display = 'none'
     secondsPassed = 0
     clearInterval(secondsInterval)
@@ -72,12 +82,13 @@ function pauseGame (){
 
 // Classes for on screen objects
 class gameObject {
-    constructor(image, x, y, width, height) {
+    constructor(image, x, y, width, height, id) {
         this.image = image
         this.x = x
         this.y = y
         this.width = width
-        this.height = height
+        this.height = height        
+        this.id = id
 
         this.alive = true
     }
@@ -90,36 +101,40 @@ class gameObject {
 // const screenBottom = parseFloat(getComputedStyle(canvas).width,10)
 let gameLoopInterval = {}
 // new game objects
-const xWing = new gameObject(xWingImage, 425, 800, 200, 150)
-const tieFighter1 = new gameObject(tieFighterImage, 1000, 750, 150, 100)
-const tieFighter2 = new gameObject(tieFighterImage, 1000, 650, 150, 100)
-const tieFighter3 = new gameObject(tieFighterImage, 1000, 550, 150, 100)
-const tieFighter4 = new gameObject(tieFighterImage, 1000, 450, 150, 100)
-const tieFighter5 = new gameObject(tieFighterImage, 1000, 350, 150, 100)
-const asteroid1 = new gameObject(asteroid1Image, 1000, 250, 100, 100)
-const asteroid2 = new gameObject(asteroid2Image, 1000, 450, 100, 100)
+const xWing = new gameObject(xWingImage, 425, 750, 200, 150)
+const tieFighter1 = new gameObject(tieFighterImage, 1000, 650, 150, 100, 0)
+const tieFighter2 = new gameObject(tieFighterImage, 0, 490, 150, 100, 1)
+const tieFighter3 = new gameObject(tieFighterImage, 1000, 330, 150, 100, 2)
+const tieFighter4 = new gameObject(tieFighterImage, 0, 170, 150, 100, 3)
+const tieFighter5 = new gameObject(tieFighterImage, 1000, 10, 150, 100, 4)
+const asteroid1 = new gameObject(asteroid1Image, 1000, 250, 100, 100, 0)
+const asteroid2 = new gameObject(asteroid2Image, 1000, 450, 100, 100, 1)
 const comet = new gameObject(cometImage, 1000, 50, 75, 250)
 const meteor = new gameObject(meteorImage, 1000, 5, 100, 225)
 // array of enemy objects
-const enemyArray = [tieFighter1, tieFighter2, tieFighter3, tieFighter4, tieFighter5, asteroid1, asteroid2, comet, meteor]
+const tieArray = [tieFighter1, tieFighter2, tieFighter3, tieFighter4, tieFighter5]
+
+const asteroidArray = [asteroid1, asteroid2]
 
 const pressedKeys = {}
 // Render gameObjects
 xWing.render()
  
+
+console.log(canvas)
 //  Handling Movement
 function xWingMovement(speed) {
     // logic for moving the player around
     if (pressedKeys.ArrowUp && xWing.y > 0) {
         xWing.y -= speed
     }
-    if (pressedKeys.ArrowDown && xWing.y < 900 - xWing.height) {
+    if (pressedKeys.ArrowDown && xWing.y < canvas.height - xWing.height) {
         xWing.y += speed
     }
-    if (pressedKeys.ArrowRight && xWing.x < 1000 - xWing.width) {
+    if (pressedKeys.ArrowRight && xWing.x < canvas.width - xWing.width) {
         xWing.x += speed
     }
-    if (pressedKeys.ArrowLeft && xWing.x > 0) {
+    if (pressedKeys.ArrowLeft && xWing.x > 5) {
         xWing.x -= speed
     }
 }
@@ -128,13 +143,22 @@ function xWingMovement(speed) {
 document.addEventListener('keydown', e => pressedKeys[e.key] = true)
 document.addEventListener('keyup', e => pressedKeys[e.key] = false)
 
-// handling AI movement
-function enemyMovement(speed, tieFighter) {
-    // logic for moving the AI across the screen
-    if (tieFighter.x >= 0 - tieFighter.width) {
-        tieFighter.x -= speed
-        // tieFighter.y += speed
-    }
+// controls tieFighter movement even object move right to left and odd objects move left to right 
+function enemyMovement(speed) {
+        // logic for moving the AI across the screen
+    tieArray.forEach(tieFighter => {
+        if (tieFighter.x >= 0 - tieFighter.width && tieFighter.id % 2 === 0) {
+            tieFighter.x -= Math.floor(Math.random() * 4)+1
+        } else if(tieFighter.x >= 0 - tieFighter.width && tieFighter.id % 2 === 1) {
+            tieFighter.x += Math.floor(Math.random() * 4)+1
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+        }
+    })
+}
+
+function objectMovement(speed) {
+    asteroidArray.forEach
 }
 
 // set variable to count seconds 
@@ -150,8 +174,8 @@ function gameLoop(){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     timer.innerText = `Timer: ${secondsPassed} Seconds`
     //if the xwing hits an object end the game 
-    enemyArray.forEach(enemy => {
-        if(detectCollision(xWing,enemy)) {
+    tieArray.forEach(tieFighter => {
+        if(detectCollision(xWing,tieFighter)) {
         xWing.alive = false
         // display you died message 
         statusMessage.innerText = ('You Died')
@@ -161,8 +185,8 @@ function gameLoop(){
         }else if(secondsPassed > WIN_TIME) {
             statusMessage.innerText = 'You Won'
         }
-        // enemyMovement(ENEMY_SPEED)
-        enemyMovement(ENEMY_SPEED, enemy)
+        // tieFighterMovement(tieFighterSpeed)
+        enemyMovement(tieFighterSpeed, tieFighter)
     })
     // pass the handle movement function and give speed setting
     xWingMovement(XWING_SPEED)
