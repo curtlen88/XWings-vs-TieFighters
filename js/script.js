@@ -6,11 +6,13 @@ const statusMessage = document.querySelector('#statusMessage')
 const timer = document.querySelector('#timer')
 const WIN_TIME = 12
 const XWING_SPEED = 15
-const ENEMY_SPEED = 10
+const randomSpeed = Math.floor(Math.random() * 20)+1
+
+const ENEMY_SPEED = randomSpeed
 const xWingImage = new Image()
-    xWingImage.src = "../img/xwing.png"
-    xWingImage.width = 150
-    xWing
+    xWingImage.src = "../img/chickenXwing.png"
+const tieFighterImage = new Image()
+    tieFighterImage.src = "../img/bowtiefighter.png"
 // console.log(startButton, pauseButton)
 
 //reset canvas pixels window size
@@ -44,10 +46,14 @@ function restartGame (){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     // console.log(`restart clicked`)
     xWing.alive === true
-    xWing.x = 450
-    xWing.y = 785
-    tieFighter.x = 1000
-    tieFighter.y = 450
+    xWing.x = 425
+    xWing.y = 750
+    tieFighter1.x = 1000
+    tieFighter1.y = 450
+    tieFighter2.x = 1000
+    tieFighter3.y = 350
+    tieFighter3.x = 1000
+    tieFighter3.y = 250
     restartButton.style.display = 'none'
     secondsPassed = 0
     clearInterval(secondsInterval)
@@ -63,22 +69,7 @@ function pauseGame (){
     clearInterval(gameLoopInterval)
     // startButton.innerText = 'Resume'
 }
-// // image object class
-// class imageObject {
-//     constructor(image,x,y,width,height) {
-//         this.image = image
-//         this.x = x
-//         this.y = y
-//         this.width = width
-//         this.height = height
 
-//         this.alive = true
-//     }
-
-//     render () {
-//         ctx.fillImg(this.image, this.x, this.y, this.width, this.height)
-//     }
-// }
 // Classes for on screen objects
 class gameObject {
     constructor(image, x, y, width, height) {
@@ -94,21 +85,29 @@ class gameObject {
     render () {
         // ctx.fillStyle = this.color
         // ctx.fillRect(this.x ,this.y, this.width, this.height)
-        ctx.drawImage(this.image, this.x, this.y)
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
     }
 }
 // game variables 
 // const screenRight = parseFloat(getComputedStyle(canvas).height,10)
 // const screenBottom = parseFloat(getComputedStyle(canvas).width,10)
 let gameLoopInterval = {}
-const xWing = new gameObject(xWingImage, 450, 785, 100, 100)
-const tieFighter = new gameObject(xWingImage, 1000, 450, 75, 75)
-const pressedKeys = {}
-// const randomHeight = 100 + Math.floor(math.random() * 200)
+const xWing = new gameObject(xWingImage, 425, 750, 150, 150)
+const tieFighter1 = new gameObject(tieFighterImage, 1000, 450, 150, 150)
+const tieFighter2 = new gameObject(tieFighterImage, 1000, 350, 150, 150)
+const tieFighter3 = new gameObject(tieFighterImage, 1000, 250, 150, 150)
+const tieFighter4 = new gameObject(tieFighterImage, 1000, 150, 150, 150)
+const tieFighter5 = new gameObject(tieFighterImage, 1000, 100, 150, 150)
+const tieFighter6 = new gameObject(tieFighterImage, 1000, 75, 150, 150)
+const tieFighter7 = new gameObject(tieFighterImage, 1000, 25, 150, 150)
+const tieFighter8 = new gameObject(tieFighterImage, 1000, 15, 150, 150)
+const tieFighter9 = new gameObject(tieFighterImage, 1000, 5, 150, 150)
+const tieFighterArray = [tieFighter1, tieFighter2, tieFighter3, tieFighter4, tieFighter5, tieFighter6, tieFighter7, tieFighter8, tieFighter9]
 
+const pressedKeys = {}
 // Render gameObjects
 xWing.render()
-
+ 
 //  Handling Movement
 function xWingMovement(speed) {
     // logic for moving the player around
@@ -136,14 +135,11 @@ document.addEventListener('keydown', e => pressedKeys[e.key] = true)
 document.addEventListener('keyup', e => pressedKeys[e.key] = false)
 
 // handling AI movement
-function enemyMovement(speed) {
+function enemyMovement(speed, tieFighter) {
     // logic for moving the AI across the screen
     if (tieFighter.x >= 0 - tieFighter.width) {
-        // console.log(pressedKeys)
         tieFighter.x -= speed
         // tieFighter.y += speed
-    } else {
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
     }
 }
 
@@ -152,7 +148,7 @@ let secondsPassed = 0
 // adds to the seconds
 function runSecondsPassed() {
     secondsPassed++
-    console.log(secondsPassed)
+    // console.log(secondsPassed)
 }
 
 // Define the game loop -> what happens when the game is running
@@ -162,32 +158,47 @@ function gameLoop(){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     timer.innerText = `Timer: ${secondsPassed} Seconds`
     //if the xwing hits an object end the game 
-    if(detectCollision(xWing, tieFighter)) {
-        // console.log('object hit')
+    tieFighterArray.forEach(tieFighter => {
+        if(detectCollision(xWing,tieFighter)) {
+                    // console.log('object hit')
         xWing.alive = false
         // display you died message 
         statusMessage.innerText = ('You Died')
         restartButton.style.display = 'flex'
         clearInterval(gameLoopInterval)
         clearInterval(secondsInterval)
-    } else if(secondsPassed > WIN_TIME) {
-        statusMessage.innerText = 'You Won'
-    }
+        }else if(secondsPassed > WIN_TIME) {
+            statusMessage.innerText = 'You Won'
+        }
+        // enemyMovement(ENEMY_SPEED)
+        enemyMovement(ENEMY_SPEED, tieFighter)
+    })
     // pass the handle movement function and give speed setting
     xWingMovement(XWING_SPEED)
-    enemyMovement(ENEMY_SPEED)
     // render X-wing and game objects
     xWing.render()
-    tieFighter.render()
+    tieFighter1.render()
+    tieFighter2.render()
+    tieFighter3.render()
+    tieFighter4.render()
+    tieFighter5.render()
+    tieFighter6.render()
+    tieFighter7.render()
+    tieFighter8.render()
+    tieFighter9.render()
 }
 
 //from canvas crawler (link)
-function detectCollision (objectOne, objectTwo) {
+function detectCollision (xWing, enemy) {
         // check for overlaps, side by side
-        const left = objectOne.x + objectOne.width >= objectTwo.x
-        const right = objectOne.x <= objectTwo.x + objectTwo.width
-        const top = objectOne.y + objectOne.height >= objectTwo.y
-        const bottom = objectOne.y <= objectTwo.y + objectTwo.height
+        const left = xWing.x + xWing.width >= enemy.x 
+        const right = xWing.x <= enemy.x + enemy.width
+        const top = xWing.y + xWing.height >= enemy.y
+        const bottom = xWing.y <= enemy.y + enemy.height
         // console.log(left, right, top, bottom)
         return left && right && top && bottom
 }
+
+
+// source for adding the images to game -> https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images
+
