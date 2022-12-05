@@ -35,12 +35,14 @@ canvas {
         grid-area: 1 / 1 / 3 / 2; 
         /* background-color: black; */
         color: gold;
+        margin-top: 79vh;
     }
 
 .buttons{ 
     grid-area: 1 / 3 / 3 / 4; 
     /* background-color: black; */
     color: gold;
+    margin-top: 91vh;
 }
 
 .titleMessage {

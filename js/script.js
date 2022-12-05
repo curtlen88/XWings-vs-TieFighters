@@ -6,8 +6,8 @@ const statusMessage = document.querySelector('#statusMessage')
 const timer = document.querySelector('#timer')
 const WIN_TIME = 12
 const XWING_SPEED = 15
-const randomSpeed = Math.floor(Math.random() * 20)+1
-const ENEMY_SPEED = randomSpeed
+// const randomSpeed = enemyArray.forEach(enemy => {(Math.floor(Math.random() * 20)+1)}
+const ENEMY_SPEED = 5
 const xWingImage = new Image()
     xWingImage.src = "../img/chickenXwing.png"
 const tieFighterImage = new Image()
@@ -90,16 +90,16 @@ class gameObject {
 // const screenBottom = parseFloat(getComputedStyle(canvas).width,10)
 let gameLoopInterval = {}
 // new game objects
-const xWing = new gameObject(xWingImage, 425, 800, 150, 150)
-const tieFighter1 = new gameObject(tieFighterImage, 1000, 750, 100, 100)
-const tieFighter2 = new gameObject(tieFighterImage, 1000, 650, 100, 100)
-const tieFighter3 = new gameObject(tieFighterImage, 1000, 550, 100, 100)
-const tieFighter4 = new gameObject(tieFighterImage, 1000, 450, 100, 100)
-const tieFighter5 = new gameObject(tieFighterImage, 1000, 350, 100, 100)
+const xWing = new gameObject(xWingImage, 425, 800, 200, 150)
+const tieFighter1 = new gameObject(tieFighterImage, 1000, 750, 150, 100)
+const tieFighter2 = new gameObject(tieFighterImage, 1000, 650, 150, 100)
+const tieFighter3 = new gameObject(tieFighterImage, 1000, 550, 150, 100)
+const tieFighter4 = new gameObject(tieFighterImage, 1000, 450, 150, 100)
+const tieFighter5 = new gameObject(tieFighterImage, 1000, 350, 150, 100)
 const asteroid1 = new gameObject(asteroid1Image, 1000, 250, 100, 100)
 const asteroid2 = new gameObject(asteroid2Image, 1000, 450, 100, 100)
-const comet = new gameObject(cometImage, 1000, 50, 100, 100)
-const meteor = new gameObject(meteorImage, 1000, 5, 100, 100)
+const comet = new gameObject(cometImage, 1000, 50, 75, 250)
+const meteor = new gameObject(meteorImage, 1000, 5, 100, 225)
 // array of enemy objects
 const enemyArray = [tieFighter1, tieFighter2, tieFighter3, tieFighter4, tieFighter5, asteroid1, asteroid2, comet, meteor]
 
@@ -150,8 +150,8 @@ function gameLoop(){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     timer.innerText = `Timer: ${secondsPassed} Seconds`
     //if the xwing hits an object end the game 
-    enemyArray.forEach(tieFighter => {
-        if(detectCollision(xWing,tieFighter)) {
+    enemyArray.forEach(enemy => {
+        if(detectCollision(xWing,enemy)) {
         xWing.alive = false
         // display you died message 
         statusMessage.innerText = ('You Died')
@@ -162,7 +162,7 @@ function gameLoop(){
             statusMessage.innerText = 'You Won'
         }
         // enemyMovement(ENEMY_SPEED)
-        enemyMovement(ENEMY_SPEED, tieFighter)
+        enemyMovement(ENEMY_SPEED, enemy)
     })
     // pass the handle movement function and give speed setting
     xWingMovement(XWING_SPEED)
@@ -191,4 +191,7 @@ function detectCollision (xWing, enemy) {
 
 
 // source for adding the images to game -> https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images
+// Tyler helped me with the 
+// Jay helped with the forEach loop to detect collision on each object 
+// Devin helped with the reset button and understanding the MDN for adding images
 
