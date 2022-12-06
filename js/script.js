@@ -119,11 +119,11 @@ let gameLoopInterval = {}
 // new game objects
     const xWing = new gameObject(xWingImage, canvas.width * .45, canvas.height * .89, 100, 75)
     const tieFighter1 = new gameObject(tieFighterImage, canvas.width, canvas.height * .9, 100, 75, 0)
-    const tieFighter2 = new gameObject(tieFighterImage, 0, canvas.height * .7, 100, 75, 1)
-    const tieFighter3 = new gameObject(tieFighterImage, canvas.width, canvas.height * .5, 100, 75, 2)
-    const tieFighter4 = new gameObject(tieFighterImage, 0, canvas.height * .3, 100, 75, 3)
-    const tieFighter5 = new gameObject(tieFighterImage, canvas.width, canvas.height * .1, 100, 75, 4)
-    const tieFighter6 = new gameObject(tieFighterImage, canvas.width, canvas.height * .2, 100, 75, 5)
+    const tieFighter2 = new gameObject(tieFighterImage, 0, canvas.height * .75, 100, 75, 1)
+    const tieFighter3 = new gameObject(tieFighterImage, canvas.width, canvas.height * .6, 100, 75, 2)
+    const tieFighter4 = new gameObject(tieFighterImage, 0, canvas.height * .45, 100, 75, 3)
+    const tieFighter5 = new gameObject(tieFighterImage, canvas.width, canvas.height * .3, 100, 75, 4)
+    const tieFighter6 = new gameObject(tieFighterImage, 0, canvas.height * .15, 100, 75, 5)
     const asteroid1 = new gameObject(asteroid1Image, canvas.width * .9, 0, 100, 100, 0)
     const asteroid2 = new gameObject(asteroid2Image, canvas.width * .7, 0, 100, 100, 1)
     const asteroid3 = new gameObject(asteroid1Image, canvas.width * .4, 0, 100, 100, 2)
@@ -184,9 +184,9 @@ function enemyMovement() {
         } else if (tie.id % 2 === 0){
             tie.x = canvas.width
             // tie.y = canvas.height * .8
+            console.log(tieFighter6)
         } else {
             tie.x = 0 - tie.width
-            console.log(tieFighter1)
         }
     })
 }
@@ -214,7 +214,7 @@ function cometMovement() {
     // if comet is on the canvas do this
     if (comet.y <= canvas.height) {
         comet.y += C_M_MOVEMENT
-        console.log(C_M_MOVEMENT)
+        // console.log(C_M_MOVEMENT)
     // if comet is off screen reset to top of the screen 
     } else {
         comet.y = 0 - comet.height
