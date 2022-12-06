@@ -61,15 +61,15 @@ function restartGame (){
     tieFighter1.x = canvas.width 
     tieFighter1.y = canvas.height * .9
     tieFighter2.x = 0
-    tieFighter2.y = canvas.height * .7
+    tieFighter2.y = canvas.height * .75
     tieFighter3.x = canvas.width
-    tieFighter3.y = canvas.height * .5
+    tieFighter3.y = canvas.height * .6
     tieFighter4.x = 0
-    tieFighter4.y = canvas.height * .3
+    tieFighter4.y = canvas.height * .45
     tieFighter5.x = canvas.width
-    tieFighter5.y = canvas.height * .1
-    tieFighter6.x = canvas.width
-    tieFighter6.y = canvas.height * .2
+    tieFighter5.y = canvas.height * .3
+    tieFighter6.x = 0
+    tieFighter6.y = canvas.height * .15
     asteroid1.x = canvas.width * .9
     asteroid1.y = 0
     asteroid2.x = canvas.width * .7
@@ -123,7 +123,7 @@ let gameLoopInterval = {}
     const tieFighter3 = new gameObject(tieFighterImage, canvas.width, canvas.height * .6, 100, 75, 2)
     const tieFighter4 = new gameObject(tieFighterImage, 0, canvas.height * .45, 100, 75, 3)
     const tieFighter5 = new gameObject(tieFighterImage, canvas.width, canvas.height * .3, 100, 75, 4)
-    const tieFighter6 = new gameObject(tieFighterImage, 0, canvas.height * .15, 100, 75, 5)
+    const tieFighter6 = new gameObject(cometImage, 0, canvas.height * .15, 100, 75, 5)
     const asteroid1 = new gameObject(asteroid1Image, canvas.width * .9, 0, 100, 100, 0)
     const asteroid2 = new gameObject(asteroid2Image, canvas.width * .7, 0, 100, 100, 1)
     const asteroid3 = new gameObject(asteroid1Image, canvas.width * .4, 0, 100, 100, 2)
@@ -173,20 +173,27 @@ document.addEventListener('keyup', e => pressedKeys[e.key] = false)
 function enemyMovement() {
     // logic for moving the AI across the screen
     tieArray.forEach(tie => {
-        // if even
-        if (tie.x >= 0 - tie.width && tie.id % 2 === 0) {
+        // if even array position
+        if(tie.id === 0)
+            console.log(tie)
+        if (tie.id % 2 === 0) {
             tie.x -= tie.speed
+            // console.log(`first if`)
             // tie.y -= tie.speed
-        // if odd    
-        } else if(tie.x >= 0 - tie.width && tie.id % 2 !== 0) {
+        // if odd array position    
+        } else if(tie.id % 2 !== 0) {
             tie.x += tie.speed
+            // console.log(`if else 1`)
             // tie.y -= tie.speed
-        } else if (tie.id % 2 === 0){
-            tie.x = canvas.width
+        }
+        
+        if (tie.x < 0 - tie.width && tie.id % 2 === 0){
+            tie.x = canvas.width + tie.width
             // tie.y = canvas.height * .8
-            console.log(tieFighter6)
-        } else {
+            // console.log(`even off screen`)
+        } else if (tie.x > canvas.width + tie.width && tie.id % 2 !== 0) {
             tie.x = 0 - tie.width
+            // console.log(`odd off screen`)
         }
     })
 }
@@ -195,15 +202,15 @@ function asteroidMovement() {
     // logic for moving the AI across the screen
     asteroidArray.forEach(asteroid => {
         // odd array object movement if on the canvas
-        if (asteroid.x <= canvas.width && asteroid.height<= canvas.width && asteroid.id % 2 === 0) {
+        if (asteroid.y <= canvas.height && asteroid.id % 2 === 0) {
             asteroid.y += asteroid.speed
-            asteroid.x -= asteroid.speed
+            // asteroid.x -= asteroid.speed
             // even array object movement if on the canvas
-        } else if(asteroid.x <= canvas.width && asteroid.height<= canvas.width &&asteroid.id % 2 !== 0) {
+        } else if(asteroid.y <= canvas.height && asteroid.id % 2 !== 0) {
             asteroid.y += asteroid.speed
-            asteroid.x += asteroid.speed
+            // asteroid.x += asteroid.speed
         } else {
-            asteroid.x = Math.floor(Math.random()*50)
+            // asteroid.x = Math.floor(Math.random()*50)
             asteroid.y = 0 - asteroid.height
             // console.log(`off screen`)
         }
