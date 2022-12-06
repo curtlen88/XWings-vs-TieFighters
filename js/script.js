@@ -1,4 +1,10 @@
-// DOM Selectors 
+// get rendering context from the canvas
+const ctx = canvas.getContext('2d')
+//reset canvas pixels window size
+canvas.setAttribute('height', getComputedStyle(canvas)['height'])
+canvas.setAttribute('width', getComputedStyle(canvas)['width'])
+
+// Selectors 
 const startButton = document.querySelector('#startButton')
 const restartButton = document.querySelector('#restartButton')
 const pauseButton = document.querySelector('#pauseButton')
@@ -6,34 +12,26 @@ const statusMessage = document.querySelector('#statusMessage')
 const timer = document.querySelector('#timer')
 
 // Global variables for speed 
-const WIN_TIME = 12
-const XWING_SPEED = 15
+const WIN_TIME = 10
+const XWING_SPEED = 20
 const INTERVAL_SPEED = 60
-const randomSpeed = 1 
-// Math.floor(Math.random() * 2)+1
-
-
+const C_M_MOVEMENT = Math.floor(Math.random()* 20)+10
+const randomSpeed = Math.floor(Math.random() * 15)
 
 // variables to select images
 const xWingImage = new Image()
-    xWingImage.src = "../img/chickenXwing.png"
+xWingImage.src = "../img/chickenXwing.png"
 const tieFighterImage = new Image()
-    tieFighterImage.src = "../img/bowtiefighter.png"
+tieFighterImage.src = "../img/bowtiefighter.png"
 const asteroid1Image = new Image()
-    asteroid1Image.src = "../img/asteroid1.png"
+asteroid1Image.src = "../img/asteroid1.png"
 const asteroid2Image = new Image()
-    asteroid2Image.src = "../img/asteroid2.png"
+asteroid2Image.src = "../img/asteroid2.png"
 const cometImage = new Image()
-    cometImage.src = "../img/comet.png"
+cometImage.src = "../img/comet.png"
 const meteorImage = new Image()
-    meteorImage.src = "../img/meteor.png"
+meteorImage.src = "../img/meteor.png"
 
-//reset canvas pixels window size
-canvas.setAttribute('height', getComputedStyle(canvas)['height'])
-canvas.setAttribute('width', getComputedStyle(canvas)['width'])
-
-// get rendering context from the canvas
-const ctx = canvas.getContext('2d')
 
 // Event Listeners
 startButton.addEventListener('click', startGame)
@@ -41,6 +39,7 @@ pauseButton.addEventListener('click', pauseGame)
 restartButton.addEventListener('click', restartGame)
 
 // sets an open variable in the global scope
+//open variable
 let secondsInterval
 
 // Functions for buttons
@@ -58,6 +57,8 @@ function restartGame (){
     xWing.alive === true
     xWing.x = 425
     xWing.y = 750
+    
+    // for lop to to iterate through these
     tieFighter1.x = canvas.width
     tieFighter1.y = 650
     tieFighter2.x = 0
@@ -77,19 +78,6 @@ function restartGame (){
     secondsInterval = setInterval(runSecondsPassed,1000)
 }
 
-// const xWing = new gameObject(xWingImage, canvas.width *.45, 750, 100, 75)
-// const tieFighter1 = new gameObject(tieFighterImage, canvas.width, canvas.height * .8, 100, 75, 0)
-// const tieFighter2 = new gameObject(tieFighterImage, 0, canvas.height * .6, 100, 75, 1)
-// const tieFighter3 = new gameObject(tieFighterImage, canvas.width, canvas.height * .4, 100, 75, 2)
-// const tieFighter4 = new gameObject(tieFighterImage, 0, canvas.height * .3, 100, 75, 3)
-// const tieFighter5 = new gameObject(tieFighterImage, canvas.width, canvas.height * .1, 100, 75, 4)
-// const asteroid1 = new gameObject(asteroid1Image, canvas.width * .9, 0, 100, 100, 0)
-// const asteroid2 = new gameObject(asteroid2Image, canvas.width * .7, 0, 100, 100, 1)
-// const asteroid3 = new gameObject(asteroid1Image, canvas.width * .4, 0, 100, 100, 2)
-// const asteroid4 = new gameObject(asteroid2Image, canvas.width *.1, 0, 100, 100, 3)
-// const comet = new gameObject(cometImage, canvas.width * .75, canvas.height, 75, 250)
-// const meteor = new gameObject(meteorImage, canvas.width * .25, canvas.height, 100, 225)
-
 function pauseGame (){
     clearInterval(gameLoopInterval)
 }
@@ -103,8 +91,8 @@ class gameObject {
         this.width = width
         this.height = height        
         this.id = id
-
-        this.speed = Math.floor(Math.random() * 4)+1
+        
+        this.speed = Math.floor(Math.random() * 9)+6
         this.alive = true
     }
     render () {
@@ -112,42 +100,48 @@ class gameObject {
     }
 }
 // game variables 
+// new game objects
+    const xWing = new gameObject(xWingImage, canvas.width * .45, canvas.height * .90, 100, 75)
+    const tieFighter1 = new gameObject(tieFighterImage, canvas.width, canvas.height * .9, 100, 75, 0)
+    const tieFighter2 = new gameObject(tieFighterImage, 0, canvas.height * .7, 100, 75, 1)
+    const tieFighter3 = new gameObject(tieFighterImage, canvas.width, canvas.height * .5, 100, 75, 2)
+    const tieFighter4 = new gameObject(tieFighterImage, 0, canvas.height * .3, 100, 75, 3)
+    const tieFighter5 = new gameObject(tieFighterImage, canvas.width, canvas.height * .1, 100, 75, 4)
+    const tieFighter6 = new gameObject(tieFighterImage, canvas.width, canvas.height * .2, 100, 75, 5)
+    const asteroid1 = new gameObject(asteroid1Image, canvas.width * .9, 0, 100, 100, 0)
+    const asteroid2 = new gameObject(asteroid2Image, canvas.width * .7, 0, 100, 100, 1)
+    const asteroid3 = new gameObject(asteroid1Image, canvas.width * .4, 0, 100, 100, 2)
+    const asteroid4 = new gameObject(asteroid2Image, canvas.width *.1, 0, 100, 100, 3)
+    const comet = new gameObject(cometImage, canvas.width * .75, -250, 75, 250, 0)
+    const meteor = new gameObject(meteorImage, canvas.width * .25, -225, 100, 225, 0)
+// arrays of objects
+    const tieArray = [tieFighter1, tieFighter2, tieFighter3, tieFighter4, tieFighter5, tieFighter6]
+    const asteroidArray = [asteroid1, asteroid2, asteroid3, asteroid4]
+    const enemiesArray = [...tieArray, ...asteroidArray, comet, meteor]
+
+// open vairable for what key is pressed
+    const pressedKeys = {}
 // const screenRight = parseFloat(getComputedStyle(canvas).height,10)
 // const screenBottom = parseFloat(getComputedStyle(canvas).width,10)
-let gameLoopInterval = {}
-// new game objects
-const xWing = new gameObject(xWingImage, canvas.width * .45, canvas.height * .9, 100, 75)
-const tieFighter1 = new gameObject(tieFighterImage, canvas.width, canvas.height * .8, 100, 75, 0)
-const tieFighter2 = new gameObject(tieFighterImage, 0, canvas.height * .6, 100, 75, 1)
-const tieFighter3 = new gameObject(tieFighterImage, canvas.width, canvas.height * .4, 100, 75, 2)
-const tieFighter4 = new gameObject(tieFighterImage, 0, canvas.height * .3, 100, 75, 3)
-const tieFighter5 = new gameObject(tieFighterImage, canvas.width, canvas.height * .1, 100, 75, 4)
-const asteroid1 = new gameObject(asteroid1Image, canvas.width * .9, 0, 100, 100, 0)
-const asteroid2 = new gameObject(asteroid2Image, canvas.width * .7, 0, 100, 100, 1)
-const asteroid3 = new gameObject(asteroid1Image, canvas.width * .4, 0, 100, 100, 2)
-const asteroid4 = new gameObject(asteroid2Image, canvas.width *.1, 0, 100, 100, 3)
-const comet = new gameObject(cometImage, canvas.width * .75, 0, 75, 250, 0)
-const meteor = new gameObject(meteorImage, canvas.width * .25, 0, 100, 225, 0)
-// array of enemy objects
-const tieArray = [tieFighter1, tieFighter2, tieFighter3, tieFighter4, tieFighter5]
-const asteroidArray = [asteroid1, asteroid2, asteroid3, asteroid4]
-const enemiesArray = [...tieArray, ...asteroidArray, comet, meteor]
-
-const pressedKeys = {}
+    let gameLoopInterval = {}
 
 console.log(canvas)
 //  Handling Movement
 function xWingMovement(speed) {
     // logic for moving the player around
+    // arrow up pressed and xWing y axis if greater than 0
     if (pressedKeys.ArrowUp && xWing.y > 0) {
         xWing.y -= speed
+    // arrow down pressed and xWing y ||| greater than canvas height minus xWing height
     }
     if (pressedKeys.ArrowDown && xWing.y < canvas.height - xWing.height) {
         xWing.y += speed
     }
+    // arrow right and xwing x --- less than canvas width minus xWing height
     if (pressedKeys.ArrowRight && xWing.x < canvas.width - xWing.width) {
         xWing.x += speed
     }
+    // arrow left and xWing x greater than 5 
     if (pressedKeys.ArrowLeft && xWing.x > 5) {
         xWing.x -= speed
     }
@@ -162,18 +156,18 @@ document.addEventListener('keyup', e => pressedKeys[e.key] = false)
 // controls tieFighter movement even object move right to left and odd objects move left to right 
 function enemyMovement() {
     // logic for moving the AI across the screen
-    tieArray.forEach(tieFighter => {
+    tieArray.forEach(tie => {
         // if even
-        if (tieFighter.x >= 0 - tieFighter.width && tieFighter.id % 2 === 0) {
-            tieFighter.x -= tieFighter.speed
-            tieFighter.y -= tieFighter.speed
+        if (tie.x >= 0 - tie.width && tie.id % 2 === 0) {
+            tie.x -= tie.speed
+            // tie.y -= tie.speed
         // if odd    
-        } else if(tieFighter.x >= 0 - tieFighter.width && tieFighter.id % 2 !== 0) {
-            tieFighter.x += tieFighter.speed
-            tieFighter.y -= tieFighter.speed
+        } else if(tie.x >= 0 - tie.width && tie.id % 2 !== 0) {
+            tie.x += tie.speed
+            // tie.y -= tie.speed
         } else { 
-            tieFighter.x = canvas.width
-            tieFighter.y = canvas.height * .8
+            tie.x = canvas.width
+            // tie.y = canvas.height * .8
         }
     })
 }
@@ -181,33 +175,41 @@ function enemyMovement() {
 function asteroidMovement() {
     // logic for moving the AI across the screen
     asteroidArray.forEach(asteroid => {
-        if (asteroid.x >= 0 - asteroid.width && asteroid.id % 2 === 0) {
-            // asteroid.x -= Math.floor(Math.random() * 4)+1
+        // odd array object movement if on the canvas
+        if (asteroid.x <= canvas.width && asteroid.height<= canvas.width && asteroid.id % 2 === 0) {
             asteroid.y += asteroid.speed
             asteroid.x -= asteroid.speed
-            
-        } else if(asteroid.id % 2 !== 0) {
-            // asteroid.x += Math.floor(Math.random() * 4)+1
+            // even array object movement if on the canvas
+        } else if(asteroid.x <= canvas.width && asteroid.height<= canvas.width &&asteroid.id % 2 !== 0) {
             asteroid.y += asteroid.speed
             asteroid.x += asteroid.speed
         } else {
-            
+            asteroid.x = Math.floor(Math.random()*50)
+            asteroid.y = 0 - asteroid.height
+            console.log(`off screen`)
         }
     })
 }
 
 function cometMovement() {
+    // if comet is on the canvas do this
     if (comet.y <= canvas.height) {
-        comet.y += 10
+        comet.y += C_M_MOVEMENT
+        console.log(C_M_MOVEMENT)
+    // if comet is off screen reset to top of the screen 
     } else {
-        // comet.x = canvas.width * .75
         comet.y = 0 - comet.height
-        comet.x = randomSpeed
     }
 }
 
 function meteorMovement() {
-    meteor.y += 10
+    // if meteor is on the canvas do this 
+    if (meteor.y <= canvas.height) {
+        meteor.y += C_M_MOVEMENT
+    // if meteor is off screen reset to top of screen
+    } else {
+        meteor.y = 0 - meteor.height
+    }
 }
 
 
@@ -227,7 +229,7 @@ function gameLoop(){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     timer.innerText = `Timer: ${secondsPassed} Seconds`
     let hit = false
-
+    // for of loop through the enemiesArray to detect a collision on each object 
     for (const enemy of enemiesArray) {
         if(detectCollision(enemy)) {
             hit = true
@@ -235,38 +237,27 @@ function gameLoop(){
         }        
     }
     //if the xwing hits an object end the game 
-    if(hit) {
-        xWing.alive = false
-        // display you died message 
-        statusMessage.innerText = ('You Died')
-        restartButton.style.display = 'flex'
-        clearInterval(gameLoopInterval)
+        if(hit) {
+            // display you died message 
+            statusMessage.innerText = ('You Died')
+            restartButton.style.display = 'flex'
+            clearInterval(gameLoopInterval)
         clearInterval(secondsInterval)
     }else if(secondsPassed > WIN_TIME) {
             statusMessage.innerText = 'You Won'
     }
-        // tieFighterMovement(tieFighterSpeed)
     enemyMovement()
     asteroidMovement()
     cometMovement()
     meteorMovement()
-
     // pass the handle movement function and give speed setting
     xWingMovement(XWING_SPEED)
-    // render X-wing and game objects
+    // render X-wing
     xWing.render()
-    // do a foreach loop on the enemies array 
-    tieFighter1.render()
-    tieFighter2.render()
-    tieFighter3.render()
-    tieFighter4.render()
-    tieFighter5.render()
-    asteroid1.render()
-    asteroid2.render()
-    asteroid3.render()
-    asteroid4.render()
-    comet.render()
-    meteor.render()
+    //loops the enemies array to render all enemy objects 
+    enemiesArray.forEach(enemy => {
+        enemy.render()
+    })
 }
 
 //from canvas crawler (link)
@@ -282,6 +273,4 @@ function detectCollision (enemy) {
 
 // source for adding the images to game -> https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images
 // Tyler helped me with the 
-// Jay helped with the forEach loop to detect collision on each object 
-// Devin helped with the reset button and understanding the MDN for adding images
 

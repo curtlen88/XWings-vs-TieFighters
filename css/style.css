@@ -15,7 +15,7 @@ canvas {
 /* sets the grids */
 .container {
     display: grid;
-    grid-template-columns: 1fr 20fr 1fr;
+    grid-template-columns: 1fr 15fr 1fr;
     grid-template-rows: 300px 900px ;
     }
     
