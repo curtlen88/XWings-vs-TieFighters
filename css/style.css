@@ -15,7 +15,7 @@ canvas {
 /* sets the grids */
 .container {
     display: grid;
-    grid-template-columns: 1fr 1000px 1fr;
+    grid-template-columns: 1fr 20fr 1fr;
     grid-template-rows: 300px 900px ;
     }
     
@@ -42,7 +42,7 @@ canvas {
     grid-area: 1 / 3 / 3 / 4; 
     /* background-color: black; */
     color: gold;
-    margin-top: 91vh;
+    margin-top: 90vh;
 }
 
 .titleMessage {
