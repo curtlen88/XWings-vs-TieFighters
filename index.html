@@ -15,13 +15,7 @@
         <div class="gameTitle">
             <h1>X-Wing vs Tie-Fighters</h1>
             <p class="titleMessage">A long time ago in a galaxy inside your browser....</p>
-            <p class="titleMessage">With the Galaxy in a state of chaos you must race past the Empires fleet of tie fighter to aid the rebellion in there next attempt to thwart the Emperors evil plans. </p>
-            <p class="titleMessage">Use the force... of your fingers and your best pilot skills to navigate through the dreaded Tie Fighter Army!</p>
             <h1 id="statusMessage">how long can you survive</h1>
-            <!-- Restart Game Button -->
-            <div id="restartButton">
-                <button>Restart</button>
-            </div>
         </div>
         
         <!-- Gameboard Container-->
@@ -32,7 +26,7 @@
         <!-- Game Instructions -->
         <div class="instructions">
             <h2>Instructions</h2>
-            <p>Move your Tie Fighter using the arrow keys to avoid the incoming Tie Fighters </p>
+            <p>Move your Tie Fighter using the ARROW KEYS to avoid objects and the incoming Tie Fighters </p>
             <p>Survive long enough and you win!</p> 
         </div>
         
@@ -40,15 +34,19 @@
         <div class="buttons">
             <div id="timer">
                 <!-- <p>time</p> -->
-                <time></time>
+                <time>Timer: 0 Seconds</time>
             </div>
             <!-- Start Game Button --> 
             <div id="startButton">
-                <button>Start the Journey</button>
+                <button>Start</button>
             </div>
             <!-- Pause Game Button -->
             <div id="pauseButton">
                 <button>Pause</button>
+            </div>
+            <!-- Restart Game Button -->
+            <div id="restartButton">
+                <button>Restart</button>
             </div>
         </div>
         <!-- End Game Button Container -->
@@ -58,9 +56,7 @@
 </body>
 </html>
 
-
 <!-- Pseudo Code 
-
 Game Steps ===>
 player starts the game
 start moving player forward
@@ -68,7 +64,6 @@ objects begin moving across screen
 player can move around the screen to avoid obstacles
 timer to track how long player has survived, when certain time has been reached the player wins 
 after win, player gets option to continue, or restart
-
 Functions ===>
 start game 
 check for collisions
@@ -77,7 +72,6 @@ check for collisions
 check for winning time limit 
     -> display game won message if time limit reached 
     -> display continue game button 
-
 Forms ===>
 game title 
 game instructions
@@ -85,25 +79,19 @@ game over message
 game won message
 start button 
 restart button 
-
 Planning ===>
-
 Xwing Class
     -> controls player movement 
-
 Tie Class 
     -> controls AI movement 
-
 Run Game Class
     -> time set to null
     -> method to increment time
     -> collision detection
-
 HTML ===>
 get canvas set up 
 start game button
 restart game button
-
 CSS ===>
 basic grid layout 
 styling once JS complete -->

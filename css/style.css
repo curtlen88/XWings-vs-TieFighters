@@ -1,5 +1,4 @@
 body {
-    /* background-color: black; */
     background-image: url('https://wallpaperaccess.com/full/3672714.png');
     background-position: center;
     background-size: cover;
@@ -12,37 +11,32 @@ canvas {
     height: 100%;
 }
 
-/* sets the grids */
 .container {
     display: grid;
     grid-template-columns: 1fr 15fr 1fr;
-    grid-template-rows: 300px 900px ;
-    }
+    grid-template-rows: 5% 100% ;
+}
     
 .gameTitle { 
-        grid-area: 1 / 2 / 2 / 3; 
-        /* background-color: black; */
-        color: gold;
-        text-align: center;
-    }
+    grid-area: 1 / 2 / 2 / 3; 
+    color: gold;
+    text-align: center;
+}
     
 .gameboard { 
-        grid-area: 2 / 2 / 3 / 3; 
-        /* background-color: lightgray; */
-    }
+    grid-area: 1 / 1 / 4 / 4; 
+}
     
 .instructions { 
-        grid-area: 1 / 1 / 3 / 2; 
-        /* background-color: black; */
-        color: gold;
-        margin-top: 79vh;
-    }
+    grid-area: 1 / 1 / 3 / 2; 
+    color: gold;
+    margin-top: 70vh;
+}
 
 .buttons{ 
     grid-area: 1 / 3 / 3 / 4; 
-    /* background-color: black; */
     color: gold;
-    margin-top: 90vh;
+    margin-top: 85vh;
 }
 
 .titleMessage {
@@ -51,6 +45,4 @@ canvas {
 
 #restartButton {
     display: none;
-    justify-content: center;
 }
-
