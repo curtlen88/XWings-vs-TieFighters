@@ -121,6 +121,7 @@ class gameObject {
 }
 // game variables 
 let gameLoopInterval = {}
+
 // new game objects
     const xWing = new gameObject(xWingImage, canvas.width * .45, canvas.height * .89, 100, 75)
     const tieFighter1 = new gameObject(tieFighterImage, canvas.width, canvas.height * .9, 100, 75, 0)
@@ -146,7 +147,6 @@ const pressedKeys = {}
 // Render gameObjects
 xWing.render()
 
-console.log(canvas)
 //  Handling Movement
 function xWingMovement(speed) {
     // logic for moving the player around
@@ -206,12 +206,11 @@ function asteroidMovement() {
         if (asteroid.id % 2 === 0) {
             asteroid.y += asteroid.speed
             asteroid.x -= asteroid.negativeSpeed
-            console.log(asteroid.negativeSpeed)
+
         // even array object movement 
         } else if(asteroid.id % 2 !== 0) {
             asteroid.y += asteroid.speed
             asteroid.x += asteroid.negativeSpeed
-            console.log(asteroid.negativeSpeed)
         } 
         // if off the canvas move back to original position
         if(asteroid.y >= canvas.height || asteroid.x >= canvas.width && asteroid.id % 2 === 0) {
