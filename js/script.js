@@ -9,8 +9,11 @@ const timer = document.querySelector('#timer')
 const WIN_TIME = 10
 const XWING_SPEED = 20
 const INTERVAL_SPEED = 60
-const C_M_MOVEMENT = Math.floor(Math.random()* 20)+10
-const randomSpeed = Math.floor(Math.random() * 15)
+const C_M_MOVEMENT = Math.floor(Math.random()* 20)+15
+// function for random movement
+const randomPosition = ()
+
+Math.floor(Math.random() * 900)+100
 
 // variables to select images
 const xWingImage = new Image()
@@ -95,8 +98,6 @@ function pauseGame (){
     clearInterval(gameLoopInterval)
 }
 
-
-
 // Classes for on screen objects
 class gameObject {
     constructor(image, x, y, width, height, id) {
@@ -107,7 +108,7 @@ class gameObject {
         this.height = height        
         this.id = id
         
-        this.speed = Math.floor(Math.random() * 9)+6
+        this.speed = Math.floor(Math.random() * 15)+6
         this.alive = true
     }
     render () {
@@ -123,7 +124,7 @@ let gameLoopInterval = {}
     const tieFighter3 = new gameObject(tieFighterImage, canvas.width, canvas.height * .6, 100, 75, 2)
     const tieFighter4 = new gameObject(tieFighterImage, 0, canvas.height * .45, 100, 75, 3)
     const tieFighter5 = new gameObject(tieFighterImage, canvas.width, canvas.height * .3, 100, 75, 4)
-    const tieFighter6 = new gameObject(cometImage, 0, canvas.height * .15, 100, 75, 5)
+    const tieFighter6 = new gameObject(tieFighterImage, 0, canvas.height * .15, 100, 75, 5)
     const asteroid1 = new gameObject(asteroid1Image, canvas.width * .9, 0, 100, 100, 0)
     const asteroid2 = new gameObject(asteroid2Image, canvas.width * .7, 0, 100, 100, 1)
     const asteroid3 = new gameObject(asteroid1Image, canvas.width * .4, 0, 100, 100, 2)
@@ -174,26 +175,22 @@ function enemyMovement() {
     // logic for moving the AI across the screen
     tieArray.forEach(tie => {
         // if even array position
-        if(tie.id === 0)
-            console.log(tie)
         if (tie.id % 2 === 0) {
             tie.x -= tie.speed
-            // console.log(`first if`)
-            // tie.y -= tie.speed
+            tie.y -= (Math.random() *6 ) -3
         // if odd array position    
         } else if(tie.id % 2 !== 0) {
             tie.x += tie.speed
-            // console.log(`if else 1`)
-            // tie.y -= tie.speed
+            tie.y -= (Math.random() *6 ) -3
         }
-        
+        // checks if image has left the screen x axis
         if (tie.x < 0 - tie.width && tie.id % 2 === 0){
             tie.x = canvas.width + tie.width
-            // tie.y = canvas.height * .8
-            // console.log(`even off screen`)
+            tie.y = Math.floor(Math.random() * 900)+50
+            
         } else if (tie.x > canvas.width + tie.width && tie.id % 2 !== 0) {
             tie.x = 0 - tie.width
-            // console.log(`odd off screen`)
+            tie.y = Math.floor(Math.random() * 900)+50
         }
     })
 }
@@ -201,18 +198,22 @@ function enemyMovement() {
 function asteroidMovement() {
     // logic for moving the AI across the screen
     asteroidArray.forEach(asteroid => {
-        // odd array object movement if on the canvas
-        if (asteroid.y <= canvas.height && asteroid.id % 2 === 0) {
+        // odd array object movement
+        if (asteroid.id % 2 === 0) {
             asteroid.y += asteroid.speed
-            // asteroid.x -= asteroid.speed
-            // even array object movement if on the canvas
-        } else if(asteroid.y <= canvas.height && asteroid.id % 2 !== 0) {
+            asteroid.x -= asteroid.speed * .5
+        // even array object movement 
+        } else if(asteroid.id % 2 !== 0) {
             asteroid.y += asteroid.speed
-            // asteroid.x += asteroid.speed
-        } else {
-            // asteroid.x = Math.floor(Math.random()*50)
+            asteroid.x += asteroid.speed * .5
+        } 
+        // if off the canvas move back to original position
+        if(asteroid.y >= canvas.height || asteroid.x >= canvas.width && asteroid.id % 2 === 0) {
+            asteroid.x = Math.floor(Math.random() * 900)+50
             asteroid.y = 0 - asteroid.height
-            // console.log(`off screen`)
+        }else if (asteroid.y >= canvas.height | asteroid.x >= canvas.width && asteroid.id % 2 !== 0) {
+            asteroid.x = Math.floor(Math.random() * 950)+50
+            asteroid.y = 0 - asteroid.height
         }
     })
 }
@@ -220,21 +221,23 @@ function asteroidMovement() {
 function cometMovement() {
     // if comet is on the canvas do this
     if (comet.y <= canvas.height) {
-        comet.y += C_M_MOVEMENT
+        comet.y += Math.floor(Math.random()* 35) + 15
         // console.log(C_M_MOVEMENT)
     // if comet is off screen reset to top of the screen 
     } else {
         comet.y = 0 - comet.height
+        comet.x = Math.floor(Math.random() * 950) + 50
     }
 }
 
 function meteorMovement() {
     // if meteor is on the canvas do this 
     if (meteor.y <= canvas.height) {
-        meteor.y += C_M_MOVEMENT
+        meteor.y += Math.floor(Math.random()* 25) + 15
     // if meteor is off screen reset to top of screen
     } else {
         meteor.y = 0 - meteor.height
+        meteor.x = Math.floor(Math.random() * 950) + 50
     }
 }
 
