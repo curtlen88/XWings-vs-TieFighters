@@ -9,11 +9,6 @@ const timer = document.querySelector('#timer')
 const WIN_TIME = 10
 const XWING_SPEED = 20
 const INTERVAL_SPEED = 60
-const C_M_MOVEMENT = Math.floor(Math.random()* 20)+15
-// function for random movement
-const randomPosition = ()
-
-Math.floor(Math.random() * 900)+100
 
 // variables to select images
 const xWingImage = new Image()
@@ -43,6 +38,11 @@ restartButton.addEventListener('click', restartGame)
 
 // sets an open variable in the global scope
 let secondsInterval
+
+// random number function
+function random(min, max) {
+    return Math.floor(Math.random() * (max-min)) + min
+}
 
 // Functions for buttons
 function startGame(){
@@ -108,7 +108,11 @@ class gameObject {
         this.height = height        
         this.id = id
         
-        this.speed = Math.floor(Math.random() * 15)+6
+        this.speed = random(6, 15)
+        this.negativeSpeed = random(-4, 4)
+        this.fastSpeed = random(15, 35)
+        this.xPosition = random(50, 900)
+        this.yPosition = random(50, 950)
         this.alive = true
     }
     render () {
@@ -177,20 +181,20 @@ function enemyMovement() {
         // if even array position
         if (tie.id % 2 === 0) {
             tie.x -= tie.speed
-            tie.y -= (Math.random() *6 ) -3
+            tie.y -= tie.negativeSpeed
         // if odd array position    
         } else if(tie.id % 2 !== 0) {
             tie.x += tie.speed
-            tie.y -= (Math.random() *6 ) -3
+            tie.y -= tie.negativeSpeed
         }
         // checks if image has left the screen x axis
         if (tie.x < 0 - tie.width && tie.id % 2 === 0){
             tie.x = canvas.width + tie.width
-            tie.y = Math.floor(Math.random() * 900)+50
+            tie.y = tie.yPosition
             
         } else if (tie.x > canvas.width + tie.width && tie.id % 2 !== 0) {
             tie.x = 0 - tie.width
-            tie.y = Math.floor(Math.random() * 900)+50
+            tie.y = tie.yPosition
         }
     })
 }
@@ -201,43 +205,44 @@ function asteroidMovement() {
         // odd array object movement
         if (asteroid.id % 2 === 0) {
             asteroid.y += asteroid.speed
-            asteroid.x -= asteroid.speed * .5
+            asteroid.x -= asteroid.negativeSpeed
+            console.log(asteroid.negativeSpeed)
         // even array object movement 
         } else if(asteroid.id % 2 !== 0) {
             asteroid.y += asteroid.speed
-            asteroid.x += asteroid.speed * .5
+            asteroid.x += asteroid.negativeSpeed
+            console.log(asteroid.negativeSpeed)
         } 
         // if off the canvas move back to original position
         if(asteroid.y >= canvas.height || asteroid.x >= canvas.width && asteroid.id % 2 === 0) {
-            asteroid.x = Math.floor(Math.random() * 900)+50
+            asteroid.x = asteroid.xPosition
             asteroid.y = 0 - asteroid.height
         }else if (asteroid.y >= canvas.height | asteroid.x >= canvas.width && asteroid.id % 2 !== 0) {
-            asteroid.x = Math.floor(Math.random() * 950)+50
+            asteroid.x = asteroid.xPosition
             asteroid.y = 0 - asteroid.height
         }
     })
 }
 
 function cometMovement() {
-    // if comet is on the canvas do this
+    // if comet is on the canvas add to y position
     if (comet.y <= canvas.height) {
-        comet.y += Math.floor(Math.random()* 35) + 15
-        // console.log(C_M_MOVEMENT)
+        comet.y += comet.fastSpeed
     // if comet is off screen reset to top of the screen 
     } else {
         comet.y = 0 - comet.height
-        comet.x = Math.floor(Math.random() * 950) + 50
+        comet.x = comet.xPosition
     }
 }
 
 function meteorMovement() {
     // if meteor is on the canvas do this 
     if (meteor.y <= canvas.height) {
-        meteor.y += Math.floor(Math.random()* 25) + 15
+        meteor.y += meteor.fastSpeed
     // if meteor is off screen reset to top of screen
     } else {
         meteor.y = 0 - meteor.height
-        meteor.x = Math.floor(Math.random() * 950) + 50
+        meteor.x = meteor.xPosition
     }
 }
 
@@ -297,4 +302,4 @@ function detectCollision (enemy) {
 
 
 // source for adding the images to game -> https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images
-// Tyler helped me with the 
+// math.random function with min max parameter ->https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random

@@ -13,8 +13,8 @@ canvas {
 
 .container {
     display: grid;
-    grid-template-columns: 1fr 15fr 1fr;
-    grid-template-rows: 5% 100% ;
+    grid-template-columns: 1fr 950px 1fr;
+    grid-template-rows: 100px 800px ;
 }
     
 .gameTitle { 
@@ -37,6 +37,7 @@ canvas {
     grid-area: 1 / 3 / 3 / 4; 
     color: gold;
     margin-top: 85vh;
+    text-align: end;
 }
 
 .titleMessage {
@@ -45,4 +46,5 @@ canvas {
 
 #restartButton {
     display: none;
+    justify-content: end;
 }
