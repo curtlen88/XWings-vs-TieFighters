@@ -12,17 +12,17 @@ const INTERVAL_SPEED = 60
 
 // variables to select images
 const xWingImage = new Image()
-xWingImage.src = "../img/chickenXwing.png"
+xWingImage.src = "./img/chickenXwing.png"
 const tieFighterImage = new Image()
-tieFighterImage.src = "../img/bowtiefighter.png"
+tieFighterImage.src = "./img/bowtiefighter.png"
 const asteroid1Image = new Image()
-asteroid1Image.src = "../img/asteroid1.png"
+asteroid1Image.src = "./img/asteroid1.png"
 const asteroid2Image = new Image()
-asteroid2Image.src = "../img/asteroid2.png"
+asteroid2Image.src = "./img/asteroid2.png"
 const cometImage = new Image()
-cometImage.src = "../img/comet.png"
+cometImage.src = "./img/comet.png"
 const meteorImage = new Image()
-meteorImage.src = "../img/meteor.png"
+meteorImage.src = "./img/meteor.png"
 
 //reset canvas pixels window size
 canvas.setAttribute('height', getComputedStyle(canvas)['height'])
