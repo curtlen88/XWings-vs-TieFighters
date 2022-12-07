@@ -47,7 +47,7 @@ Survive long enough and you win!
 * Make the Tie Fighters Move enter left of screen exit right of screen, and enter top of screen exit bottom of screen
 * Add a background to simulate motion
 * Add meteors that travel faster than the Tie Fighters
-* Add and option for a parody mode where the sprites for X-Wing are chicken legs in the shape of an X, and a Tie Fighter sprite thats neck ties in the shape of a Tie Fighter
+* Add and option for a parody mode where the sprites for X-Wing are chicken legs in the shape of an X, and a Tie Fighter sprite that are bow ties in the shape of a Tie Fighter
 
 # Super-Strech Goals
 
@@ -59,3 +59,12 @@ Survive long enough and you win!
 * Having the Tie fighters move across the screen
 * Tracking the time played 
 * Allowing the player to continue from current position once the winning time limit has been reached 
+
+# Approach
+
+# Explanations of the technologies used
+
+# Post-Project Reflection with 
+* any unsolved problems or growth areas you may have had
+
+# Sources
