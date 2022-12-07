@@ -6,6 +6,10 @@ With the Galxay in a state of chaos you must race past the Empires fleet of tie 
 
 Use the force... of your fingers and your best pilot skills to navigate throught the dreaded Tie Fighter Army!
 
+# Play the Game Here
+
+https://curtlen88.github.io/XWings-vs-TieFighters/
+
 # About the Game
 
 X-Wing vs Tie Fighters will be a 2D collision avoidance game. The game will start with a start button clicked. The X-Wing will move through a field of passing by Tie Fighters. If the X-Wing hits a Tie the game will be over. A message will be displayed telling the user they have "Fell to the evil Hands of the Empire" and a resart button will allow them to restart. The player will start from the begining everytime they die. If the X-Wing successfully navigates the Tie Fighters for long enough they win, but will have the option to continue to see how long they can survive. 
