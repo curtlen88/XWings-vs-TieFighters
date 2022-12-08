@@ -83,7 +83,7 @@ I feel I grew in my knowledge and understanding of all the concepts we previousl
 
 When going back to DRY out my code I found some ways to improve my code but found this part particularly useful in understanding what and how I was accomplishing things as it forced me to understand what was done and how I was doing it before I could refactor. 
 
-I have a few unresolved problems with my code. Currently the CSS dimensions are hard coded and does not support smaller screens. I would like to go back and update this for various screen sizes one day. When refactoring my math.random use into a function I created a problem where the speed and position of the object only randomizes once creating the same speed and position each time the object left the screen and was returned to the random position. I also want my X-Wing image to populate the screen when the page loads but when I rendered it to the screen it is not working for some reason.
+I have a few unresolved problems with my code. Currently the CSS dimensions are hard coded and does not support smaller screens. I would like to go back and update this for various screen sizes one day. I also want my X-Wing image to populate the screen when the page loads but when I rendered it to the screen it is not working for some reason.
 
 Overall this was an awesome learning experience and Im feeling confident I my knowledge of what we have covered in class to this point. 
 
