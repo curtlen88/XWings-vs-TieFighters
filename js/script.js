@@ -108,11 +108,9 @@ class gameObject {
         this.height = height        
         this.id = id
         
-        this.speed = random(6, 15)
+        this.xSpeed = random(5, 15)
+        this.ySpeed = random(15, 30)
         this.negativeSpeed = random(-4, 4)
-        this.fastSpeed = random(15, 35)
-        this.xPosition = random(50, 900)
-        this.yPosition = random(50, 950)
         this.alive = true
     }
     render () {
@@ -168,8 +166,6 @@ function xWingMovement(speed) {
     }
 }
 
-//the logic for xwing movement need to be reversed to see if an object is off of the screen !!!!!!!!!!!!!!!
-
 //Event Listeners for keydown event
 document.addEventListener('keydown', e => pressedKeys[e.key] = true)
 document.addEventListener('keyup', e => pressedKeys[e.key] = false)
@@ -180,21 +176,25 @@ function enemyMovement() {
     tieArray.forEach(tie => {
         // if even array position
         if (tie.id % 2 === 0) {
-            tie.x -= tie.speed
+            tie.x -= tie.xSpeed
             tie.y -= tie.negativeSpeed
         // if odd array position    
         } else if(tie.id % 2 !== 0) {
-            tie.x += tie.speed
+            tie.x += tie.xSpeed
             tie.y -= tie.negativeSpeed
         }
         // checks if image has left the screen x axis
         if (tie.x < 0 - tie.width && tie.id % 2 === 0){
             tie.x = canvas.width + tie.width
-            tie.y = tie.yPosition
+            tie.y = random(50, 900)
+            tie.xSpeed = random(5, 15)
+            tie.negativeSpeed = random(-4, 4)
             
         } else if (tie.x > canvas.width + tie.width && tie.id % 2 !== 0) {
             tie.x = 0 - tie.width
-            tie.y = tie.yPosition
+            tie.y = random(50, 900)
+            tie.xSpeed = random(5, 15)
+            tie.negativeSpeed = random(-4, 4)
         }
     })
 }
@@ -204,21 +204,25 @@ function asteroidMovement() {
     asteroidArray.forEach(asteroid => {
         // odd array object movement
         if (asteroid.id % 2 === 0) {
-            asteroid.y += asteroid.speed
+            asteroid.y += asteroid.ySpeed
             asteroid.x -= asteroid.negativeSpeed
 
         // even array object movement 
         } else if(asteroid.id % 2 !== 0) {
-            asteroid.y += asteroid.speed
+            asteroid.y += asteroid.ySpeed
             asteroid.x += asteroid.negativeSpeed
         } 
         // if off the canvas move back to original position
         if(asteroid.y >= canvas.height || asteroid.x >= canvas.width && asteroid.id % 2 === 0) {
-            asteroid.x = asteroid.xPosition
+            asteroid.x = random(50, 950)
             asteroid.y = 0 - asteroid.height
+            asteroid.ySpeed = random(10, 25)
+            asteroid.negativeSpeed = random(-8, 8)
         }else if (asteroid.y >= canvas.height | asteroid.x >= canvas.width && asteroid.id % 2 !== 0) {
-            asteroid.x = asteroid.xPosition
+            asteroid.x = random(50, 950)
             asteroid.y = 0 - asteroid.height
+            asteroid.ySpeed = random(10, 25)
+            asteroid.negativeSpeed = random(-8, 8)
         }
     })
 }
@@ -226,22 +230,24 @@ function asteroidMovement() {
 function cometMovement() {
     // if comet is on the canvas add to y position
     if (comet.y <= canvas.height) {
-        comet.y += comet.fastSpeed
+        comet.y += comet.ySpeed
     // if comet is off screen reset to top of the screen 
     } else {
         comet.y = 0 - comet.height
-        comet.x = comet.xPosition
+        comet.x = random(50, 950)
+        comet.ySpeed = random(15, 45)
     }
 }
 
 function meteorMovement() {
     // if meteor is on the canvas do this 
     if (meteor.y <= canvas.height) {
-        meteor.y += meteor.fastSpeed
+        meteor.y += meteor.ySpeed
     // if meteor is off screen reset to top of screen
     } else {
         meteor.y = 0 - meteor.height
-        meteor.x = meteor.xPosition
+        meteor.x = random(50, 900)
+        meteor.ySpeed = random(15, 35)
     }
 }
 
@@ -268,7 +274,7 @@ function gameLoop(){
     //if the xWing hits an object end the game 
         if(hit) {
             // display you died message 
-            statusMessage.innerText = ('You Died')
+            statusMessage.innerText = ('You fell to the evil hands of the Empire')
             restartButton.style.display = 'flex'
             clearInterval(gameLoopInterval)
         clearInterval(secondsInterval)
@@ -298,7 +304,3 @@ function detectCollision (enemy) {
         const bottom = xWing.y <= enemy.y + enemy.height
         return left && right && top && bottom
 }
-
-
-// source for adding the images to game -> https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images
-// math.random function with min max parameter ->https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
