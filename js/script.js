@@ -70,7 +70,6 @@ function restartGame (){
         if (tie.id % 2 === 0) {
             tie.x = canvas.width + tie.width
             tie.y = canvas.height * Math.random()
-            console.log(tieFighter1)
         }else if(tie.id % 2 !== 0)
             tie.x = 0
             tie.y = canvas.height * Math.random()        
