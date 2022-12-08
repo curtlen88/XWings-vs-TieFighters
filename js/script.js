@@ -109,7 +109,7 @@ class gameObject {
         this.id = id
         
         this.xSpeed = random(5, 15)
-        this.ySpeed = random(15, 30)
+        this.ySpeed = random(15, 25)
         this.negativeSpeed = random(-4, 4)
         this.alive = true
     }
@@ -186,13 +186,13 @@ function enemyMovement() {
         // checks if image has left the screen x axis
         if (tie.x < 0 - tie.width && tie.id % 2 === 0){
             tie.x = canvas.width + tie.width
-            tie.y = random(50, 900)
+            tie.y = random(50, canvas.height - (tie.height / 2))
             tie.xSpeed = random(5, 15)
             tie.negativeSpeed = random(-4, 4)
             
         } else if (tie.x > canvas.width + tie.width && tie.id % 2 !== 0) {
             tie.x = 0 - tie.width
-            tie.y = random(50, 900)
+            tie.y = random(50, canvas.height - (tie.height / 2))
             tie.xSpeed = random(5, 15)
             tie.negativeSpeed = random(-4, 4)
         }
@@ -214,12 +214,12 @@ function asteroidMovement() {
         } 
         // if off the canvas move back to original position
         if(asteroid.y >= canvas.height || asteroid.x >= canvas.width && asteroid.id % 2 === 0) {
-            asteroid.x = random(50, 950)
+            asteroid.x = random(50, canvas.width - (asteroid.width / 2))
             asteroid.y = 0 - asteroid.height
             asteroid.ySpeed = random(10, 25)
             asteroid.negativeSpeed = random(-8, 8)
         }else if (asteroid.y >= canvas.height | asteroid.x >= canvas.width && asteroid.id % 2 !== 0) {
-            asteroid.x = random(50, 950)
+            asteroid.x = random(50, canvas.width - (asteroid.width / 2))
             asteroid.y = 0 - asteroid.height
             asteroid.ySpeed = random(10, 25)
             asteroid.negativeSpeed = random(-8, 8)
@@ -234,7 +234,7 @@ function cometMovement() {
     // if comet is off screen reset to top of the screen 
     } else {
         comet.y = 0 - comet.height
-        comet.x = random(50, 950)
+        comet.x = random(50, canvas.width - (comet.width / 2))
         comet.ySpeed = random(15, 45)
     }
 }
@@ -246,7 +246,7 @@ function meteorMovement() {
     // if meteor is off screen reset to top of screen
     } else {
         meteor.y = 0 - meteor.height
-        meteor.x = random(50, 900)
+        meteor.x = random(50, canvas.width - (comet.width / 2))
         meteor.ySpeed = random(15, 35)
     }
 }
