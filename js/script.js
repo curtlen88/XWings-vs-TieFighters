@@ -1,11 +1,11 @@
-// Selectors 
+// selecting buttons
 const startButton = document.querySelector('#startButton')
 const restartButton = document.querySelector('#restartButton')
 const pauseButton = document.querySelector('#pauseButton')
 const statusMessage = document.querySelector('#statusMessage')
 const timer = document.querySelector('#timer')
 
-// Global variables for speed 
+// global variables for speed 
 const WIN_TIME = 10
 const XWING_SPEED = 20
 const INTERVAL_SPEED = 60
@@ -31,69 +31,72 @@ canvas.setAttribute('width', getComputedStyle(canvas)['width'])
 // get rendering context from the canvas
 const ctx = canvas.getContext('2d')
 
-// Event Listeners
+// event Listeners
 startButton.addEventListener('click', startGame)
 pauseButton.addEventListener('click', pauseGame)
 restartButton.addEventListener('click', restartGame)
 
-// sets an open variable in the global scope
+// sets an open secondsInterval and gameLoopInterval in the global scope
 let secondsInterval
+let gameLoopInterval
 
 // random number function
 function random(min, max) {
     return Math.floor(Math.random() * (max-min)) + min
 }
 
-// Functions for buttons
+// function for start button
 function startGame(){
+    // set the game loop interval
     gameLoopInterval = setInterval(gameLoop, INTERVAL_SPEED)
+    // set seconds passed to 0 
     secondsPassed = 0
-    // interval for the runSeconds Function
+    // set the seconds interval to 1 sec
     secondsInterval = setInterval(runSecondsPassed,1000)
+    // update reset button css display to none
     restartButton.style.display = 'none'
 }
 
 function restartGame (){
+    // clear the game loop interval
     clearInterval(gameLoopInterval)
+    // clear the canvas images
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    xWing.alive === true
+    // resets the xwing position
     xWing.x = canvas.width * .45
     xWing.y = canvas.height *.89
-    
-    // for lop to to iterate through these
-    tieFighter1.x = canvas.width 
-    tieFighter1.y = canvas.height * .9
-    tieFighter2.x = 0
-    tieFighter2.y = canvas.height * .75
-    tieFighter3.x = canvas.width
-    tieFighter3.y = canvas.height * .6
-    tieFighter4.x = 0
-    tieFighter4.y = canvas.height * .45
-    tieFighter5.x = canvas.width
-    tieFighter5.y = canvas.height * .3
-    tieFighter6.x = 0
-    tieFighter6.y = canvas.height * .15
-    asteroid1.x = canvas.width * .9
-    asteroid1.y = 0
-    asteroid2.x = canvas.width * .7
-    asteroid2.y = 0
-    asteroid3.x = canvas.width * .4
-    asteroid3.y = 0
-    asteroid4.x = canvas.width *.1
-    asteroid4.y = 0
-    comet.x = canvas.width * .75,
-    comet.y = -250
-    meteor.x = canvas.width * .25
-    meteor.y = -225
+    // for lop to apply random off screen position to tie fighters
+    tieArray.forEach(tie => {
+        if (tie.id % 2 === 0) {
+            tie.x = canvas.width + tie.width
+            tie.y = canvas.height * Math.random()
+            console.log(tieFighter1)
+        }else if(tie.id % 2 !== 0)
+            tie.x = 0
+            tie.y = canvas.height * Math.random()        
+    })
+    // for loop to apply random off screen position to asteroids
+    asteroidArray.forEach(asteroid => {
+        asteroid.x = canvas.width * Math.random()
+        asteroid.y = 0 - asteroid.height
+    })
+    //resets comet and meteors to random off screen position
+    comet.x = canvas.width * Math.random()
+    comet.y = 0 - comet.height
+    meteor.x = canvas.width * Math.random()
+    meteor.y = 0 - meteor.height
+    // removes restart button 
     restartButton.style.display = 'none'
+    // sets seconds passed to 0
     secondsPassed = 0
-    clearInterval(secondsInterval)
-    statusMessage.innerText = 'How long can you survive'
+    // make the status message go back to original statement
+    statusMessage.innerText = 'How long can you survive?'
+    //applies the game loop and seconds interval
     gameLoopInterval = setInterval(gameLoop, INTERVAL_SPEED)
-    // // interval for the runSeconds Function
     secondsInterval = setInterval(runSecondsPassed,1000)
 }
 
+// pauses the game by clearing the gameLoopInterval
 function pauseGame (){
     clearInterval(gameLoopInterval)
 }
@@ -111,14 +114,12 @@ class gameObject {
         this.xSpeed = random(5, 15)
         this.ySpeed = random(15, 25)
         this.negativeSpeed = random(-4, 4)
-        this.alive = true
     }
     render () {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
     }
 }
-// game variables 
-let gameLoopInterval = {}
+
 
 // new game objects
     const xWing = new gameObject(xWingImage, canvas.width * .45, canvas.height * .89, 100, 75)
@@ -142,31 +143,24 @@ let gameLoopInterval = {}
 // open variable for what key is pressed
 const pressedKeys = {}
 
-// Render gameObjects
-xWing.render()
-
-//  Handling Movement
+//  handles xwing movement
 function xWingMovement(speed) {
-    // logic for moving the player around
-    // arrow up pressed and xWing y axis if greater than 0
+    // logic for moving the player around based on the arrow pressed, prevent further movement if at an edge of the canvas
     if (pressedKeys.ArrowUp && xWing.y > 0) {
         xWing.y -= speed
-    // arrow down pressed and xWing y ||| greater than canvas height minus xWing height
     }
     if (pressedKeys.ArrowDown && xWing.y < canvas.height - xWing.height) {
         xWing.y += speed
     }
-    // arrow right and xwing x --- less than canvas width minus xWing height
     if (pressedKeys.ArrowRight && xWing.x < canvas.width - xWing.width) {
         xWing.x += speed
     }
-    // arrow left and xWing x greater than 5 
     if (pressedKeys.ArrowLeft && xWing.x > 5) {
         xWing.x -= speed
     }
 }
 
-//Event Listeners for keydown event
+// event Listeners for keydown event
 document.addEventListener('keydown', e => pressedKeys[e.key] = true)
 document.addEventListener('keyup', e => pressedKeys[e.key] = false)
 
@@ -174,33 +168,35 @@ document.addEventListener('keyup', e => pressedKeys[e.key] = false)
 function enemyMovement() {
     // logic for moving the AI across the screen
     tieArray.forEach(tie => {
-        // if even array position
+        // if even array position add speed
         if (tie.id % 2 === 0) {
             tie.x -= tie.xSpeed
             tie.y -= tie.negativeSpeed
-        // if odd array position    
+        // if odd array position add speed
         } else if(tie.id % 2 !== 0) {
             tie.x += tie.xSpeed
             tie.y -= tie.negativeSpeed
         }
-        // checks if image has left the screen x axis
+
+        // if even and image has left the screen and resets to random position and speed 
         if (tie.x < 0 - tie.width && tie.id % 2 === 0){
             tie.x = canvas.width + tie.width
-            tie.y = random(50, canvas.height - (tie.height / 2))
+            tie.y = canvas.height * Math.random()
             tie.xSpeed = random(5, 15)
             tie.negativeSpeed = random(-4, 4)
-            
+        // if odd and image has left the screen and resets to random position and speed 
         } else if (tie.x > canvas.width + tie.width && tie.id % 2 !== 0) {
             tie.x = 0 - tie.width
-            tie.y = random(50, canvas.height - (tie.height / 2))
+            tie.y = canvas.height * Math.random()
             tie.xSpeed = random(5, 15)
             tie.negativeSpeed = random(-4, 4)
         }
     })
 }
 
+// Asteroid movement function
 function asteroidMovement() {
-    // logic for moving the AI across the screen
+    // logic for moving the asteroid across the screen
     asteroidArray.forEach(asteroid => {
         // odd array object movement
         if (asteroid.id % 2 === 0) {
@@ -212,14 +208,15 @@ function asteroidMovement() {
             asteroid.y += asteroid.ySpeed
             asteroid.x += asteroid.negativeSpeed
         } 
-        // if off the canvas move back to original position
+        // if even and off the canvas move back to random position
         if(asteroid.y >= canvas.height || asteroid.x >= canvas.width && asteroid.id % 2 === 0) {
-            asteroid.x = random(50, canvas.width - (asteroid.width / 2))
+            asteroid.x = canvas.width * Math.random()
             asteroid.y = 0 - asteroid.height
             asteroid.ySpeed = random(10, 25)
             asteroid.negativeSpeed = random(-8, 8)
+        // if odd and off the canvas move back to random position
         }else if (asteroid.y >= canvas.height | asteroid.x >= canvas.width && asteroid.id % 2 !== 0) {
-            asteroid.x = random(50, canvas.width - (asteroid.width / 2))
+            asteroid.x = canvas.width * Math.random()
             asteroid.y = 0 - asteroid.height
             asteroid.ySpeed = random(10, 25)
             asteroid.negativeSpeed = random(-8, 8)
@@ -234,7 +231,7 @@ function cometMovement() {
     // if comet is off screen reset to top of the screen 
     } else {
         comet.y = 0 - comet.height
-        comet.x = random(50, canvas.width - (comet.width / 2))
+        comet.x = canvas.width * Math.random()
         comet.ySpeed = random(15, 45)
     }
 }
@@ -246,14 +243,13 @@ function meteorMovement() {
     // if meteor is off screen reset to top of screen
     } else {
         meteor.y = 0 - meteor.height
-        meteor.x = random(50, canvas.width - (comet.width / 2))
+        meteor.x = canvas.width * Math.random()
         meteor.ySpeed = random(15, 35)
     }
 }
 
 // set variable to count seconds 
 let secondsPassed = 0
-
 // adds to the seconds
 function runSecondsPassed() {
     secondsPassed++
@@ -277,10 +273,11 @@ function gameLoop(){
             statusMessage.innerText = ('You fell to the evil hands of the Empire')
             restartButton.style.display = 'flex'
             clearInterval(gameLoopInterval)
-        clearInterval(secondsInterval)
-    }else if(secondsPassed > WIN_TIME) {
+            clearInterval(secondsInterval)
+        }else if(secondsPassed >= WIN_TIME) {
             statusMessage.innerText = 'You Won'
-    }
+        }
+    // invoke movement functions 
     enemyMovement()
     asteroidMovement()
     cometMovement()
@@ -295,7 +292,7 @@ function gameLoop(){
     })
 }
 
-//from canvas crawler (link)
+// collision logic from canvas crawler
 function detectCollision (enemy) {
         // check for overlaps, side by side
         const left = xWing.x + xWing.width >= enemy.x
